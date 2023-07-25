@@ -1,0 +1,31 @@
+{
+    "name": "jet-prototype-v2",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "webpack serve --open",
+        "build": "webpack",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.4.4",
+        "@uswds/compile": "^1.0.0",
+        "css-loader": "^6.8.1",
+        "html-webpack-partials-plugin": "^0.8.0",
+        "html-webpack-plugin": "^5.5.3",
+        "nodemon": "^3.0.1",
+        "style-loader": "^3.3.3",
+        "ts-loader": "^9.4.4",
+        "tsc-watch": "^6.0.4",
+        "typescript": "^5.1.6",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
+    },
+    "dependencies": {
+        "@uswds/uswds": "^3.5.0"
+    }
+}

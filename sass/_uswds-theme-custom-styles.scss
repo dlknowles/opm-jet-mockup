@@ -1,0 +1,77 @@
+/*
+* * * * * ==============================
+* * * * * ==============================
+* * * * * ==============================
+* * * * * ==============================
+========================================
+========================================
+========================================
+----------------------------------------
+USWDS THEME CUSTOM STYLES
+----------------------------------------
+!! Copy this file to your project's
+   sass root. Don't edit the version
+   in node_modules.
+----------------------------------------
+Custom project SASS goes here.
+
+i.e.
+@include u-padding-right('05');
+----------------------------------------
+*/
+
+@use "uswds-core" as *;
+
+// Define a color map
+$color-map: (
+    "match-color-red": color("red-40v"),
+    "match-color-orange": color("orange-40v"),
+    "match-color-yellow": color("yellow-40v"),
+    "match-color-green": color("green-40v")
+);
+
+// Mixin to generate classes
+@mixin generate-color-classes($map) {
+    @each $class, $color in $map {
+        .#{$class} {
+            color: $color;
+        }
+    }
+}
+
+// Use the mixin
+@include generate-color-classes($color-map);
+
+$spacer: 1rem;
+
+.result {
+    padding: ($spacer * 6) 0;
+}
+.match {
+    @include at-media(tablet) {
+        h2 {
+            text-align: right;
+        }
+        p {
+            text-align: right;
+        }
+    }
+}
+.series {
+    .series-detail {
+        margin-bottom: ($spacer * 4);
+    }
+    h2 {
+        span:not(:last-child) {
+            margin-right: ($spacer * 2);
+        }
+        display: flex;
+        justify-content: space-between;
+    }
+    .usa-button-group {
+        justify-content: flex-end;
+    }
+    .series-name {
+        text-transform: capitalize;
+    }
+}
