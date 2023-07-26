@@ -44,22 +44,90 @@ $color-map: (
 
 $spacer: 1rem;
 
+html {
+    scroll-behavior: smooth;
+}
+.vh-80 {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.bg-blue {
+    background-color: color("blue-5");
+}
+.bg-gray {
+    background-color: color("gray-2");
+}
+.bg-grad {
+    background: color("blue-5");
+    background: radial-gradient(circle, color("white") 20%, color("blue-10") 100%);
+    background-attachment: fixed;
+}
+.w-auto {
+    width: auto !important;
+}
+.text-align-right {
+    @include at-media(tablet) {
+        text-align: right;
+    }
+}
+
+ul.top-series-list {
+    li {
+        margin: ($spacer) 0;
+        a {
+            @include typeset("sans", 7, 3);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    }
+}
+.results-faqs-section {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.top-series-container {
+    // flex: 1;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+}
+.results-faqs-container {
+    //margin-top: auto;
+}
+.results-intro {
+    p {
+        @include typeset("sans", 9, 3);
+        @include u-measure(1);
+    }
+}
+ul.results-faqs {
+    display: flex;
+    justify-content: space-evenly;
+    li {
+        margin: ($spacer) ($spacer);
+    }
+}
 .result {
     padding: ($spacer * 6) 0;
 }
 .match {
-    @include at-media(tablet) {
-        h2 {
-            text-align: right;
-        }
-        p {
-            text-align: right;
-        }
+    & > * {
+        margin-left: ($spacer * 0.5);
+        margin-right: ($spacer * 0.5);
     }
 }
 .series {
     .series-detail {
-        margin-bottom: ($spacer * 4);
+        & > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .series-actions {
+        margin-top: ($spacer * 3);
+        margin-bottom: ($spacer * 3);
     }
     h2 {
         span:not(:last-child) {
@@ -71,7 +139,14 @@ $spacer: 1rem;
     .usa-button-group {
         justify-content: flex-end;
     }
-    .series-name {
-        text-transform: capitalize;
-    }
+}
+.series-name {
+    text-transform: capitalize;
+}
+.series-nav-buttons {
+    position: sticky;
+    bottom: 0;
+    padding: ($spacer * 0.5) $spacer;
+    display: flex;
+    justify-content: space-between;
 }

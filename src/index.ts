@@ -22,10 +22,22 @@ fetch(staticData)
         });
         console.log(seriesArr);
 
-        const container = document.getElementById('data') as HTMLElement;
-        if (container) {
-            seriesArr.forEach((series: any) => {
-                console.log(series);
+        const topSeriesList = document.querySelector('#top-series-list');
+        if (topSeriesList) {
+            const top10 = seriesArr.slice(0, 10);
+            top10.forEach((series: any, i: number) => {
+                let html = `
+                <li>
+                    <a href="#series-${i}" class="usa-link series-name">${series.gsNumber} | ${series.gsName}</a>
+                </li>
+                `;
+                topSeriesList.innerHTML += html;
+            });
+        }
+
+        const seriesContainer = document.querySelector('#data');
+        if (seriesContainer) {
+            seriesArr.forEach((series: any, i: number) => {
 
                 // Get the match number for the series
                 let match = series.match;
@@ -38,8 +50,8 @@ fetch(staticData)
                 let matchCopy = matchRange ? matchRange.copy : "";
 
                 let html = `
-                <div class="grid-row grid-gap result">
-                    <div class="tablet:grid-col-3 match">
+                <div class="grid-row grid-gap result" id="series-${i}">
+                    <div class="tablet:grid-col-3 match bg-blue text-align-right">
                         <h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>
                         <p class="usa-prose">Your interests have a <strong class="match-color-${matchColor}">${matchCopy} alignment</strong> with jobs in this series</p>
                     </div>
@@ -47,12 +59,15 @@ fetch(staticData)
                         <div class="series-detail">
                             <h2><span class="series-name">${series.gsName}</span><span>${series.gsNumber}</span></h2>
                             <p class="usa-prose">${series.gsDescription}</p>
+                        </div>
+                        <div class="series-actions">
                             <div class="usa-button-group">
-                                <a href="${series.gsLink}" class="usa-button">Search this series on USAJOBS</a>
+                                <a href="#" class="usa-button usa-button--outline">Explore related series</a>
+                                <a href="#" class="usa-button">Search this series on USAJOBS</a>
                             </div>
                         </div>
                         <div class="series-jobs">
-                            <h3 class="series-name">${series.gsName} Jobs</h3>
+                            <h3>Common job titles for the <span class="series-name">${series.gsName}</span></h3>
                             <div class="usa-accordion usa-accordion--bordered usa-accordion--multiselectable" data-allow-multiple>
                                 ${series.jobs.map((job: any, i: number) => `
                                 <h4 class="usa-accordion__heading">
@@ -67,11 +82,63 @@ fetch(staticData)
                     </div>
                 </div>
                 `;
-                container.innerHTML += html;
+                seriesContainer.innerHTML += html;
 
             });
         }
 
     })
+    .then(() => {
+        const results = document.querySelectorAll('.result');
+
+        // Get the prev and next buttons
+        const prevButton = document.querySelector('#prev');
+        const nextButton = document.querySelector('#next');
+
+        // Function to find the index of the element in the viewport
+        function findCurrentIndex() {
+            let minDistance = Number.MAX_SAFE_INTEGER;
+            let closestIndex = 0;
+
+            results.forEach((result, index) => {
+                let distance = Math.abs(result.getBoundingClientRect().top);
+                if (distance < minDistance) {
+                    closestIndex = index;
+                    minDistance = distance;
+                }
+            });
+
+            return closestIndex;
+        }
+
+        // Add event listener for the prev button
+        prevButton.addEventListener('click', function () {
+            let currentIndex = findCurrentIndex();
+
+            // Only decrement the index if it's not already at 0
+            if (currentIndex > 0) {
+                currentIndex--;
+                // Scroll to the new current element
+                results[currentIndex].scrollIntoView({ behavior: "smooth" });
+            }
+        });
+
+        // Add event listener for the next button
+        nextButton.addEventListener('click', function () {
+            let currentIndex = findCurrentIndex();
+
+            // Only increment the index if it's not already at the last element
+            if (currentIndex < results.length - 1) {
+                currentIndex++;
+                // Scroll to the new current element
+                results[currentIndex].scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    }
+
+    )
     .catch(error => console.error('Error:', error));
 
+// document.addEventListener('DOMContentLoaded', function () {
+
+// });

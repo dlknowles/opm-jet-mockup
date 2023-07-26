@@ -25,16 +25,16 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: './index.html'
-        }),
-        new HtmlWebpackPartialsPlugin([
-            {
-                path: './src/parts/nav.html',
-                location: 'nav',
-                template_filename: ['index.html'],
-                priority: 'high',
-                inject: true
-            }
-        ])
+        })
+        // new HtmlWebpackPartialsPlugin([
+        //     {
+        //         path: './src/parts/nav.html',
+        //         location: 'nav',
+        //         template_filename: ['index.html'],
+        //         priority: 'high',
+        //         inject: false
+        //     }
+        // ])
     ],
     output: {
         filename: 'bundle.js',

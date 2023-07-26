@@ -28,12 +28,56 @@
 
 <body>
     <main id="main">
-        <div id="nav"></div>
-        <div class="grid-container">
-            <div id="data"></div>
-        </div>
+        <section class="vh-80 bg-grad">
+            <div class="grid-container top-series-container">
+                <div class="grid-row grid-gap">
+                    <div class="tablet:grid-col results-intro text-align-right">
+                        <h1>Your results are in!</h1>
+                        <p>Here are your top<br> <strong>occupation series</strong> matches.</p>
+                    </div>
+                    <div class="tablet:grid-col">
+                        <nav>
+                            <ul class="usa-list usa-list--unstyled top-series-list" id="top-series-list"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-gray results-faqs-section">
+            <div class="grid-container">
+                <div class="grid-row grid-gap">
+                    <div class="tablet:grid-col">
+                        <ul class="usa-list usa-list--unstyled results-faqs">
+                            <li><a href="#" class="usa-link"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                        <use xlink:href="/assets/uswds/img/sprite.svg#info"></use>
+                                    </svg> How did you find my match?</a></li>
+                            <li><a href="#" class="usa-link"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                        <use xlink:href="/assets/uswds/img/sprite.svg#info"></use>
+                                    </svg> What's an occupation series?</a></li>
+                            <li><a href="#" class="usa-link"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                        <use xlink:href="/assets/uswds/img/sprite.svg#info"></use>
+                                    </svg> What's GS?</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="grid-container">
+                <div id="data"></div>
+            </div>
+            <div class="series-nav-buttons bg-gray">
+                <div class="buttons">
+                    <a href="#main" type="button" class="usa-button usa-button--outline w-auto">Top</a>
+                </div>
+                <div class="buttons">
+                    <button type="button" class="usa-button usa-button--outline w-auto" id="prev">Prev</button>
+                    <button type="button" class="usa-button usa-button--outline w-auto" id="next">Next</button>
+                </div>
+            </div>
+        </section>
     </main>
-    <script src="bundle.js"></script>
+    <!-- <script src="bundle.js"></script> -->
 </body>
 
 </html>
