@@ -28,7 +28,7 @@ for i in range(1, 31):
 
     series_item = {
         "gsName": f"{fake.job()} Series",
-        "gsNumber": f"GS-{random_number}",
+        "gsNumber": f"{random_number}",
         "gsDescription": fake.paragraph(nb_sentences=15),
         "gsLink": f"https://usajobs.gov/Series{i}",
         "jobs": jobs,

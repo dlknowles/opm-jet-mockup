@@ -8,5 +8,9 @@ in the form $setting: value,
 */
 
 @use "uswds-core" with (
-    $theme-image-path: "../img"
+    $theme-show-notifications: false,
+    $theme-link-visited-color: "primary",
+    $theme-image-path: "../img",
+    $theme-grid-container-max-width: "desktop-lg",
+    $theme-column-gap-desktop: 6
 );

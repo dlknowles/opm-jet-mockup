@@ -25,6 +25,14 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: './index.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/quiz.html',
+            filename: './quiz.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/results.html',
+            filename: './results.html'
         })
         // new HtmlWebpackPartialsPlugin([
         //     {
