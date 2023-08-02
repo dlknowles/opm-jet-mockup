@@ -182,7 +182,7 @@ if (fileName === 'quiz.html') {
                             <div class="radio-group" id="${fieldsetId}"></div>
                             <div class="rating-choices">
                                 <div>Not interested</div>
-                                <div>Very interested</div>
+                                <div>Extremely interested</div>
                             </div>
                         </fieldset>
                     </div>

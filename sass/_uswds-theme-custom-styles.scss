@@ -51,6 +51,13 @@ $spacer: 1rem;
 html {
     scroll-behavior: smooth;
 }
+h1 {
+    @include typeset("sans", 15, 2);
+    span {
+        font-size: 0.65em;
+        display: block;
+    }
+}
 .vh-80 {
     min-height: 80vh;
     display: flex;
@@ -104,10 +111,18 @@ ul.top-series-list {
 .results-faqs-container {
     //margin-top: auto;
 }
-.results-intro {
-    p {
+.intro {
+    p,
+    li,
+    a {
         @include typeset("sans", 9, 3);
         //@include u-measure(1);
+    }
+}
+.usa-button-group {
+    justify-content: flex-end;
+    &.buttons-center {
+        justify-content: center;
     }
 }
 ul.results-faqs {
@@ -118,7 +133,8 @@ ul.results-faqs {
     }
 }
 .result {
-    padding: ($spacer * 6) 0;
+    padding-top: ($spacer * 6);
+    padding-bottom: ($spacer * 6);
 }
 .match {
     & > * {
@@ -142,9 +158,6 @@ ul.results-faqs {
         }
         display: flex;
         justify-content: space-between;
-    }
-    .usa-button-group {
-        justify-content: flex-end;
     }
 }
 .series-name {
@@ -256,5 +269,26 @@ $progress-color: color("mint-30v");
     display: flex;
     li {
         margin: 0 $spacer;
+    }
+}
+ul.instructions {
+    margin-bottom: ($spacer * 2);
+    li {
+        margin: ($spacer) 0;
+        a {
+            @include typeset("sans", 7, 3);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    }
+}
+ul.icon-list {
+    li {
+        display: flex;
+        align-items: center;
+        .usa-icon {
+            font-size: 2.3rem;
+            margin-right: $spacer;
+        }
     }
 }
