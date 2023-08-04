@@ -180,6 +180,14 @@ ul.results-faqs {
     background: color("white");
     padding: $spacer;
     border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    & > *:last-child {
+        margin-top: auto;
+    }
+    .usa-fieldset {
+        margin-top: auto;
+    }
 }
 .quiz-slide {
     .grid-container {
@@ -195,15 +203,27 @@ ul.results-faqs {
 }
 .radio-group {
     display: flex;
-    justify-content: space-around;
-    .usa-radio__label {
-        text-align: center;
-        margin: ($spacer) 0;
-        padding: 0 ($spacer);
-        &::before {
-            position: relative;
-            margin: 0 0 4px 0;
+    flex-direction: column;
+    margin-left: $spacer;
+    @include at-media(tablet) {
+        margin: 0;
+        flex-direction: row;
+        justify-content: space-around;
+        .usa-radio {
+            margin: 0;
         }
+        .usa-radio__label {
+            text-align: center;
+            margin: 0;
+            padding: $spacer;
+            &::before {
+                position: relative;
+                margin: 0 auto ($spacer) auto;
+            }
+        }
+    }
+    .usa-radio {
+        margin-bottom: ($spacer * 0.5);
     }
 }
 .rating-choices {
@@ -264,6 +284,9 @@ $progress-color: color("mint-30v");
     button.usa-button {
         margin: 0;
     }
+    .progress-text {
+        text-align: center;
+    }
 }
 .mockup-nav {
     display: flex;
@@ -289,6 +312,48 @@ ul.icon-list {
         .usa-icon {
             font-size: 2.3rem;
             margin-right: $spacer;
+            &.icon-larger {
+                font-size: 2.7rem;
+            }
         }
     }
+}
+.logo {
+    height: 80px;
+    width: auto;
+}
+.nav-mockup {
+    padding: $spacer 0;
+    .grid-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .logo {
+        height: 36px;
+        width: 158px;
+    }
+    .links {
+        display: flex;
+        li {
+            margin: 0 ($spacer * 2);
+        }
+    }
+}
+.footer-mockup {
+    .f1 {
+        background-color: #fff;
+        min-height: 68px;
+    }
+    .f2 {
+        background-color: #f1f1f1;
+        min-height: 328px;
+    }
+    .f3 {
+        background-color: #112e51;
+        min-height: 203px;
+    }
+}
+.load-more-button {
+    margin: 0 auto ($spacer * 4) auto;
+    display: block;
 }

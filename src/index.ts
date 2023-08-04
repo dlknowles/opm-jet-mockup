@@ -44,55 +44,83 @@ if (fileName === 'results.html') {
             }
 
             const seriesContainer = document.querySelector('#data');
+
             if (seriesContainer) {
-                seriesArr.forEach((series: any, i: number) => {
+                let currentIndex = 0;
+                const displaySeries = () => {
+                    for (let i = currentIndex; i < currentIndex + 10 && i < seriesArr.length; i++) {
+                        const series = seriesArr[i];
 
-                    // Get the match number for the series
-                    let match = series.match;
+                        // Get the match number for the series
+                        let match = series.match;
 
-                    // Find the color range that match falls into
-                    let matchRange = matchRanges.find(range => match >= range.min && match <= range.max);
+                        // Find the color range that match falls into
+                        let matchRange = matchRanges.find(range => match >= range.min && match <= range.max);
 
-                    // Get the color class from the color range, or a default class if no range is found
-                    let matchColor = matchRange ? matchRange.color : "";
-                    let matchCopy = matchRange ? matchRange.copy : "";
+                        // Get the color class from the color range, or a default class if no range is found
+                        let matchColor = matchRange ? matchRange.color : "";
+                        let matchCopy = matchRange ? matchRange.copy : "";
 
-                    let html = `
-                <div class="grid-row grid-gap result" id="series-${i}">
-                    <div class="tablet:grid-col-3 match bg-blue text-align-right">
-                        <h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>
-                        <p class="usa-prose">Your interests have a <strong class="match-color-${matchColor}">${matchCopy} alignment</strong> with jobs in this series</p>
-                    </div>
-                    <div class="tablet:grid-col series">
-                        <div class="series-detail">
-                            <h2><span class="series-name">${series.gsName}</span><span>${series.gsNumber}</span></h2>
-                            <p class="usa-prose">${series.gsDescription}</p>
-                        </div>
-                        <div class="series-actions">
-                            <div class="usa-button-group">
-                                <a href="#" class="usa-button usa-button--outline">Explore related series</a>
-                                <a href="#" class="usa-button">Search this series on USAJOBS</a>
+                        let html = `
+                        <div class="grid-row grid-gap result" id="series-${i}">
+                            <div class="tablet:grid-col-3 match bg-blue text-align-right">
+                                <!--<h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>
+                                <p class="usa-prose">Your interests have a <strong class="match-color-${matchColor}">${matchCopy} alignment</strong> with jobs in this series</p>-->
                             </div>
-                        </div>
-                        <div class="series-jobs">
-                            <h3>Common job titles for the <span class="series-name">${series.gsName}</span></h3>
-                            <div class="usa-accordion usa-accordion--bordered usa-accordion--multiselectable" data-allow-multiple>
-                                ${series.jobs.map((job: any, i: number) => `
-                                <h4 class="usa-accordion__heading">
-                                    <button type="button" class="usa-accordion__button" ${(i === 0) ? 'aria-expanded="true"' : 'aria-expanded="false"'} aria-controls="a${job.jobId}">${job.jobName}</button>
-                                </h4>
-                                <div id="a${job.jobId}" class="usa-accordion__content" ${(i === 0) ? '' : 'hidden'}>
-                                    <p class="usa-prose">${job.jobDescription}</p>
+                            <div class="tablet:grid-col series">
+                                <div class="series-detail">
+                                    <h2><span class="series-name">${series.gsNumber} - ${series.gsName}</span></h2>
+                                    <p class="usa-prose">${series.gsDescription}</p>
+                                    <div class="job-titles">
+                                        <h3>Common job titles for this series</h3>
+                                        <p class="usa-prose">Here's a list of the <em>most applied to</em> job titles within the <span class="series-name">${series.gsName}</span>:</p>
+                                        <ul class="usa-list">
+                                        ${series.jobs.map((job: any, i: number) => `
+                                        <li>${job.jobName}</li>
+                                        `).join('')}
+                                        </ul>
+                                    </div>
                                 </div>
-                                `).join('')}
+                                <div class="series-actions">
+                                    <div class="usa-button-group">
+                                        <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
+                                        <a href="#" class="usa-button">Search this series on USAJOBS</a>
+                                    </div>
+                                </div>
+                                <!--<div class="series-jobs">
+                                    <h3>Common job titles for the <span class="series-name">${series.gsName}</span></h3>
+                                    <div class="usa-accordion usa-accordion--bordered usa-accordion--multiselectable" data-allow-multiple>
+                                        ${series.jobs.map((job: any, i: number) => `
+                                        <h4 class="usa-accordion__heading">
+                                            <button type="button" class="usa-accordion__button" ${(i === 0) ? 'aria-expanded="true"' : 'aria-expanded="false"'} aria-controls="a${job.jobId}">${job.jobName}</button>
+                                        </h4>
+                                        <div id="a${job.jobId}" class="usa-accordion__content" ${(i === 0) ? '' : 'hidden'}>
+                                            <p class="usa-prose">${job.jobDescription}</p>
+                                        </div>
+                                        `).join('')}
+                                    </div>
+                                </div>-->
                             </div>
                         </div>
-                    </div>
-                </div>
-                `;
-                    seriesContainer.innerHTML += html;
+                        `;
+                        seriesContainer.innerHTML += html;
+                    };
+                    currentIndex += 10;
+                };
 
-                });
+                displaySeries();
+
+                const loadMoreButton = document.querySelector('#load-more');
+                if (loadMoreButton) {
+                    loadMoreButton.addEventListener('click', () => {
+                        //console.log(currentIndex);
+                        displaySeries();
+                        if (currentIndex >= seriesArr.length) {
+                            loadMoreButton.remove();
+                        }
+                    });
+                }
+
             }
             const results = document.querySelectorAll('.result');
             const prevButton = document.querySelector('#prev');
@@ -151,6 +179,7 @@ if (fileName === 'quiz.html') {
             console.log(questionsArr);
 
             const addRadioButtons = (n: number, fieldsetId: string) => {
+                const labels = ['Not Interested', 'Slightly Interested', 'Moderately Interested', 'Very Interested', 'Extremely Interested'];
                 const fieldset = document.querySelector('#' + fieldsetId);
                 for (let i = 1; i <= n; i++) {
                     let radioId = `${fieldsetId}-r${i}`;  // Generate a unique id for each radio button
@@ -158,7 +187,7 @@ if (fileName === 'quiz.html') {
                     let html = `
                     <div class="usa-radio">
                         <input class="usa-radio__input" id="${radioId}" type="radio" name="${radioName}" value="${i}" />
-                        <label class="usa-radio__label" for="${radioId}">${i}</label>  <!-- Use the unique id -->
+                        <label class="usa-radio__label" for="${radioId}">${labels[i - 1]}</label>  <!-- Use the unique id -->
                     </div>
                     `;
                     if (fieldset) {
@@ -174,16 +203,18 @@ if (fileName === 'quiz.html') {
                     let fieldsetId = `rating${i}`;
                     let html = `
                     <div class="quiz-question">
-                        <h2>Question #${i + 1}</h2>
-                        <p class="question usa-prose">How interested are you in doing the following activities at work?</p>
-                        <p class="usa-prose">${question.question}</p>
+                        <div>
+                            <h2>Question #${i + 1}</h2>
+                            <p class="question usa-prose">How interested are you in doing these activities at work?</p>
+                            <p class="usa-prose">${question.question}</p>
+                        </div>
                         <fieldset class="usa-fieldset">
                             <legend class="usa-legend">Select one rating</legend>
                             <div class="radio-group" id="${fieldsetId}"></div>
-                            <div class="rating-choices">
+                            <!--<div class="rating-choices">
                                 <div>Not interested</div>
                                 <div>Extremely interested</div>
-                            </div>
+                            </div>-->
                         </fieldset>
                     </div>
                     `;

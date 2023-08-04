@@ -23,23 +23,25 @@
             <li><a class="usa-link" href="results.html">Results</a></li>
         </ul>
     </nav>
-    <main id="main">
-        <section class="vh-100 bg-gray">
-            <div class="grid-container progress-bar-container">
+    <%= files.header %>
+        <main id="main">
+            <section class="vh-100 bg-gray">
+                <!-- <div class="grid-container progress-bar-container">
                 <div class="progress-bar"></div>
-            </div>
-            <div class="quiz-slide">
-                <div class="grid-container">
-                    <div id="quiz-questions" class="quiz-questions"></div>
+            </div> -->
+                <div class="quiz-slide">
+                    <div class="grid-container">
+                        <div id="quiz-questions" class="quiz-questions"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="grid-container quiz-nav-buttons">
-                <button type="button" class="usa-button usa-button--outline w-auto" id="prev">Prev</button>
-                <button type="button" class="usa-button w-auto" id="next">Next</button>
-            </div>
-        </section>
-    </main>
-
+                <div class="grid-container quiz-nav-buttons">
+                    <button type="button" class="usa-button usa-button--outline w-auto" id="prev">Prev</button>
+                    <p class="usa-prose progress-text">Progress: 4% Complete</p>
+                    <button type="button" class="usa-button w-auto" id="next">Next</button>
+                </div>
+            </section>
+        </main>
+        <%= files.footer %>
 </body>
 
 </html>

@@ -1,6 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPartialsPlugin = require('html-webpack-partials-plugin');
+const fs = require('fs');
+
+const files = {
+    header: fs.readFileSync('./src/parts/header.html', { encoding: 'utf-8' }),
+    footer: fs.readFileSync('./src/parts/footer.html', { encoding: 'utf-8' })
+};
 
 module.exports = {
     mode: 'development',
@@ -24,25 +29,25 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            filename: './index.html'
+            filename: './index.html',
+            templateParameters: {
+                files
+            }
         }),
         new HtmlWebpackPlugin({
             template: './src/quiz.html',
-            filename: './quiz.html'
+            filename: './quiz.html',
+            templateParameters: {
+                files
+            }
         }),
         new HtmlWebpackPlugin({
             template: './src/results.html',
-            filename: './results.html'
+            filename: './results.html',
+            templateParameters: {
+                files
+            }
         })
-        // new HtmlWebpackPartialsPlugin([
-        //     {
-        //         path: './src/parts/nav.html',
-        //         location: 'nav',
-        //         template_filename: ['index.html'],
-        //         priority: 'high',
-        //         inject: false
-        //     }
-        // ])
     ],
     output: {
         filename: 'bundle.js',
