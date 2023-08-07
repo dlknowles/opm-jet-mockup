@@ -170,32 +170,24 @@ ul.results-faqs {
     display: flex;
     justify-content: space-between;
 }
-.quiz-questions {
-    display: flex;
-    overflow-x: hidden;
-    //white-space: nowrap;
-}
-.quiz-question {
-    flex: 0 0 100%;
-    background: color("white");
-    padding: $spacer;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    & > *:last-child {
-        margin-top: auto;
+.quiz {
+    max-width: 44rem;
+    .questions {
+        display: flex;
+        overflow-x: hidden;
+        .question {
+            flex: 0 0 100%;
+            background: color("white");
+            padding: $spacer;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            // height: 100%;
+            .usa-fieldset {
+                margin-top: auto;
+            }
+        }
     }
-    .usa-fieldset {
-        margin-top: auto;
-    }
-}
-.quiz-slide {
-    .grid-container {
-        max-width: 44rem;
-    }
-}
-.question {
-    font-weight: bold;
 }
 .usa-legend {
     visibility: hidden;
@@ -287,6 +279,11 @@ $progress-color: color("mint-30v");
     .progress-text {
         text-align: center;
     }
+}
+.quiz-submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .mockup-nav {
     display: flex;

@@ -20,6 +20,9 @@
         <ul class="usa-list usa-list--unstyled mockup-nav">
             <li><a class="usa-link" href="index.html">Home</a></li>
             <li><a class="usa-link" href="quiz.html">Quiz</a></li>
+            <li><a class="usa-link" id="qFirst">Q1</a></li>
+            <li><a class="usa-link" id="qLast">Q25</a></li>
+            <li><a class="usa-link" id="complete">Complete</a></li>
             <li><a class="usa-link" href="results.html">Results</a></li>
         </ul>
     </nav>
@@ -92,15 +95,22 @@
                 <!-- <div class="grid-container progress-bar-container">
                 <div class="progress-bar"></div>
             </div> -->
-                <div class="quiz-slide">
-                    <div class="grid-container">
-                        <div id="quiz-questions" class="quiz-questions"></div>
+                <div>
+                    <div class="grid-container quiz">
+                        <div class="questions"></div>
                     </div>
-                </div>
-                <div class="grid-container quiz-nav-buttons">
-                    <button type="button" class="usa-button usa-button--outline w-auto" id="prev">Prev</button>
-                    <p class="usa-prose progress-text">Progress: 4% Complete</p>
-                    <button type="button" class="usa-button w-auto" id="next">Next</button>
+                    <div class="grid-container quiz-nav-buttons">
+                        <button type="button" class="usa-button usa-button--outline w-auto" id="prev" style="visibility: hidden;">Prev</button>
+                        <div id="progressContainer">
+                            <div id="progressBar"></div>
+                            <span id="progressText">Progress: 0% Complete</span>
+                        </div>
+                        <!-- <p class="usa-prose progress-text">Progress: 4% Complete</p> -->
+                        <button type="button" class="usa-button usa-button--outline w-auto" id="next" style="visibility: hidden;">Next</button>
+                    </div>
+                    <div class="grid-container quiz-submit-button">
+                        <button type="button" class="usa-button w-auto" id="submit-button" style="visibility: hidden;">Submit</button>
+                    </div>
                 </div>
             </section>
         </main>

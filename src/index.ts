@@ -196,25 +196,20 @@ if (fileName === 'quiz.html') {
                 }
             };
 
-            const questionsContainer = document.querySelector('#quiz-questions');
-
+            const questionsContainer = document.querySelector('.questions') as HTMLElement;
             if (questionsContainer) {
                 questionsArr.forEach((question: any, i: number) => {
                     let fieldsetId = `rating${i}`;
                     let html = `
-                    <div class="quiz-question">
+                    <div class="question">
                         <div>
                             <h2>Question #${i + 1}</h2>
-                            <p class="question usa-prose">How interested are you in doing these activities at work?</p>
+                            <p class="usa-prose"><strong>How interested are you in doing these activities at work?</strong></p>
                             <p class="usa-prose">${question.question}</p>
                         </div>
                         <fieldset class="usa-fieldset">
                             <legend class="usa-legend">Select one rating</legend>
                             <div class="radio-group" id="${fieldsetId}"></div>
-                            <!--<div class="rating-choices">
-                                <div>Not interested</div>
-                                <div>Extremely interested</div>
-                            </div>-->
                         </fieldset>
                     </div>
                     `;
@@ -223,43 +218,182 @@ if (fileName === 'quiz.html') {
                 });
             }
 
-            const questionContainers = document.querySelectorAll('.quiz-question');
-            const prevButton = document.querySelector('#prev');
-            const nextButton = document.querySelector('#next');
-            let currentQuestionIndex = 0;
+            let currentQuestionIndex = 0; //Outer scope this to imitate state
 
-            // const getNextVisibleQuestionIndex = () => {
-            //     for (let i = 0; i < questionContainers.length; i++) {
-            //         const question = questionContainers[i];
-            //         const questionRect = question.getBoundingClientRect();
-            //         if (questionRect.top >= 0 && questionRect.bottom <= window.innerHeight) {
-            //             return i;
-            //         }
-            //     }
-            //     return -1;
-            // };
-
+            const questions = document.querySelectorAll('.question');
             const navigateToQuestion = (index: number) => {
-                if (index >= 0 && index < questionContainers.length) {
-                    questionContainers[index].scrollIntoView({ behavior: 'smooth' });
+                if (index >= 0 && index < questions.length) {
+                    questions[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
                     currentQuestionIndex = index;
+
+                    //Check if the question has been answered
+                    if (isQuestionAnswered(questions[currentQuestionIndex])) {
+                        nextButton.style.visibility = 'visible';
+                    } else {
+                        nextButton.style.visibility = 'hidden';
+                    }
                 }
+                updateNextButtonState();
             };
 
-            prevButton.addEventListener('click', () => {
-                navigateToQuestion(currentQuestionIndex - 1);
-            });
+            const prevButton = document.querySelector('#prev') as HTMLElement;
+            if (prevButton) {
+                prevButton.addEventListener('click', () => {
+                    navigateToQuestion(currentQuestionIndex - 1);
+                    updatePrevButtonVisibility();
+                    updateNextButtonState();
+                });
+            }
 
-            nextButton.addEventListener('click', () => {
-                navigateToQuestion(currentQuestionIndex + 1);
-            });
+            const nextButton = document.querySelector('#next') as HTMLElement;
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    navigateToQuestion(currentQuestionIndex + 1);
+                    updatePrevButtonVisibility();
+                    updateNextButtonState();
+                });
+            }
+
+            const isQuestionAnswered = (question: Element): boolean => {
+                const radios = question.querySelectorAll('input[type="radio"]');
+                for (let i = 0; i < radios.length; i++) {
+                    if ((radios[i] as HTMLInputElement).checked) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            function updatePrevButtonVisibility() {
+                if (prevButton) {
+                    if (currentQuestionIndex === 0) {
+                        prevButton.style.visibility = 'hidden';
+                    } else {
+                        prevButton.style.visibility = 'visible';
+                    }
+                }
+            }
+            updatePrevButtonVisibility();
+
+            function updateNextButtonState() {
+                if (nextButton) {
+                    // Hide the button when on the last question
+                    if (currentQuestionIndex === 24) {
+                        nextButton.style.visibility = 'hidden';
+                        return; // Exit the function early
+                    }
+                    // Get the current question based on index
+                    const currentQuestion = questions[currentQuestionIndex] as HTMLElement;
+
+                    // If the current question has been answered, show the button
+                    if (isQuestionAnswered(currentQuestion)) {
+                        nextButton.style.visibility = 'visible';
+                    } else {
+                        nextButton.style.visibility = 'hidden';
+                    }
+                }
+            }
+            updateNextButtonState();
 
             const radioButtons = document.querySelectorAll('.usa-radio__input');
             radioButtons.forEach((radioButton) => {
-                radioButton.addEventListener('change', () => {
-                    navigateToQuestion(currentQuestionIndex + 1);
+                radioButton.addEventListener('change', (e) => {
+                    const currentRadioButton = e.target as HTMLInputElement;
+                    const parentQuestion = currentRadioButton.closest('.question');
+                    const questionIndex = Array.from(questions).indexOf(parentQuestion);
+
+                    // Only navigate if the question hasn't been answered yet
+                    if (!answeredQuestions.has(questionIndex)) {
+                        navigateToQuestion(currentQuestionIndex + 1);
+                        answeredQuestions.add(questionIndex);  // Mark the question as answered
+                    }
+
+                    updatePrevButtonVisibility();
+                    updateNextButtonState();
+                    updateSubmitButtonState();
                 });
             });
+
+            const qFirst = document.querySelector('#qFirst');
+            if (qFirst) {
+                qFirst.addEventListener('click', () => {
+                    navigateToQuestion(0);
+                    updatePrevButtonVisibility();
+                    updateNextButtonState();
+                });
+            }
+
+            const qLast = document.querySelector('#qLast');
+            if (qLast) {
+                qLast.addEventListener('click', () => {
+                    const lastSlideIndex = questions.length - 1;
+                    navigateToQuestion(lastSlideIndex);
+                    updatePrevButtonVisibility();
+                    updateNextButtonState();
+                });
+            }
+
+            const complete = document.querySelector('#complete') as HTMLElement;
+
+            complete.addEventListener('click', () => {
+                questions.forEach((question, index) => {
+                    const radioButtons = question.querySelectorAll('input[type="radio"]');
+                    const randomIndex = Math.floor(Math.random() * radioButtons.length);  // Choose a random radio button to select
+                    const radioButton = radioButtons[randomIndex] as HTMLInputElement;
+
+                    radioButton.checked = true;
+                    answeredQuestions.add(index);
+                });
+
+                // After automatically answering, update the visibility of the Next and Submit buttons.
+                updateNextButtonState();
+                updateSubmitButtonState();
+                updateProgressBar();
+            });
+
+            const radioButtonsArr = document.querySelectorAll('.usa-radio__input');
+
+            radioButtonsArr.forEach((radio) => {
+                radio.addEventListener('change', updateProgress);
+            });
+
+            let answeredQuestions = new Set(); // To store the indices of answered questions
+
+            function updateProgress(event: any) {
+                const parentQuestion = event.target.closest('.question');
+                const questionIndex = Array.from(questions).indexOf(parentQuestion);
+
+                answeredQuestions.add(questionIndex);
+
+                updateProgressBar();
+            }
+
+            function updateProgressBar() {
+                const totalQuestions = questions.length;
+                const answeredCount = answeredQuestions.size;
+
+                const progressPercentage = (answeredCount / totalQuestions) * 100;
+
+                (document.querySelector('#progressBar') as HTMLElement).style.width = `${progressPercentage}%`;
+                (document.querySelector('#progressText') as HTMLElement).textContent = `Progress: ${Math.round(progressPercentage)}% Complete`;
+            }
+
+            function areAllQuestionsAnswered(): boolean {
+                return Array.from(questions).every(questionElement => isQuestionAnswered(questionElement as HTMLElement));
+            }
+
+            const submitButton = document.querySelector('#submit-button') as HTMLElement;
+            console.log(submitButton);
+
+            function updateSubmitButtonState() {
+                if (areAllQuestionsAnswered()) {
+                    submitButton.style.visibility = 'visible';
+                } else {
+                    submitButton.style.visibility = 'hidden';
+                }
+            }
+            updateSubmitButtonState();
+
 
         } catch (error) {
             console.error('Error:', error);
