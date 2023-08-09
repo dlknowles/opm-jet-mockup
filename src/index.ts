@@ -33,18 +33,32 @@ if (fileName === 'results.html') {
             const topSeriesList = document.querySelector('#top-series-list');
             if (topSeriesList) {
                 const top10 = seriesArr.slice(0, 10);
+
                 top10.forEach((series: any, i: number) => {
                     let html = `
-                <li>
-                    <a href="#series-${i}" class="usa-link series-name">${series.gsNumber} - ${series.gsName}</a>
-                </li>
-                `;
+                    <li>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.number} - ${series.name}</a>
+                    </li>
+                    `;
                     topSeriesList.innerHTML += html;
+                });
+
+                topSeriesList.addEventListener('click', function (event) {
+                    const targetElement = event.target as HTMLElement;
+                    if (targetElement && targetElement.classList.contains('series-name')) {
+                        event.preventDefault();
+
+                        const seriesIndex = targetElement.getAttribute('data-series-index');
+                        const scrollTargetElement = document.getElementById(`series-${seriesIndex}`);
+
+                        if (scrollTargetElement) {
+                            scrollTargetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
                 });
             }
 
             const seriesContainer = document.querySelector('#data');
-
             if (seriesContainer) {
                 let currentIndex = 0;
                 const displaySeries = () => {
@@ -53,10 +67,8 @@ if (fileName === 'results.html') {
 
                         // Get the match number for the series
                         let match = series.match;
-
                         // Find the color range that match falls into
                         let matchRange = matchRanges.find(range => match >= range.min && match <= range.max);
-
                         // Get the color class from the color range, or a default class if no range is found
                         let matchColor = matchRange ? matchRange.color : "";
                         let matchCopy = matchRange ? matchRange.copy : "";
@@ -69,14 +81,14 @@ if (fileName === 'results.html') {
                             </div>
                             <div class="tablet:grid-col series">
                                 <div class="series-detail">
-                                    <h2><span class="series-name">${series.gsNumber} - ${series.gsName}</span></h2>
-                                    <p class="usa-prose">${series.gsDescription}</p>
+                                    <h2><span class="series-name">${series.number} - ${series.name}</span></h2>
+                                    <p class="usa-prose">${series.description}</p>
                                     <div class="job-titles">
-                                        <h3>Common job titles for this series</h3>
-                                        <p class="usa-prose">Here's a list of the <em>most applied to</em> job titles within the <span class="series-name">${series.gsName}</span>:</p>
+                                        <h3>Popular job titles for this series</h3>
+                                        <p class="usa-prose">Here's a list of the <em>most applied to</em> job titles within the <span class="series-name">${series.name}</span>:</p>
                                         <ul class="usa-list">
                                         ${series.jobs.map((job: any, i: number) => `
-                                        <li>${job.jobName}</li>
+                                        <li>${job.name}</li>
                                         `).join('')}
                                         </ul>
                                     </div>
@@ -88,14 +100,14 @@ if (fileName === 'results.html') {
                                     </div>
                                 </div>
                                 <!--<div class="series-jobs">
-                                    <h3>Common job titles for the <span class="series-name">${series.gsName}</span></h3>
+                                    <h3>Common job titles for the <span class="series-name">${series.name}</span></h3>
                                     <div class="usa-accordion usa-accordion--bordered usa-accordion--multiselectable" data-allow-multiple>
                                         ${series.jobs.map((job: any, i: number) => `
                                         <h4 class="usa-accordion__heading">
-                                            <button type="button" class="usa-accordion__button" ${(i === 0) ? 'aria-expanded="true"' : 'aria-expanded="false"'} aria-controls="a${job.jobId}">${job.jobName}</button>
+                                            <button type="button" class="usa-accordion__button" ${(i === 0) ? 'aria-expanded="true"' : 'aria-expanded="false"'} aria-controls="a${job.id}">${job.name}</button>
                                         </h4>
-                                        <div id="a${job.jobId}" class="usa-accordion__content" ${(i === 0) ? '' : 'hidden'}>
-                                            <p class="usa-prose">${job.jobDescription}</p>
+                                        <div id="a${job.id}" class="usa-accordion__content" ${(i === 0) ? '' : 'hidden'}>
+                                            <p class="usa-prose">${job.description}</p>
                                         </div>
                                         `).join('')}
                                     </div>
@@ -122,16 +134,17 @@ if (fileName === 'results.html') {
                 }
 
             }
-            const results = document.querySelectorAll('.result');
+
             const prevButton = document.querySelector('#prev');
             const nextButton = document.querySelector('#next');
 
             // Function to find the index of the element in the viewport
-            function findCurrentIndex() {
+            function findCurrentIndex(results: any) {
+
                 let minDistance = Number.MAX_SAFE_INTEGER;
                 let closestIndex = 0;
 
-                results.forEach((result, index) => {
+                results.forEach((result: any, index: number) => {
                     let distance = Math.abs(result.getBoundingClientRect().top);
                     if (distance < minDistance) {
                         closestIndex = index;
@@ -142,7 +155,8 @@ if (fileName === 'results.html') {
                 return closestIndex;
             }
             prevButton.addEventListener('click', function () {
-                let currentIndex = findCurrentIndex();
+                let results = document.querySelectorAll('.result');
+                let currentIndex = findCurrentIndex(results);
 
                 // Only decrement the index if it's not already at 0
                 if (currentIndex > 0) {
@@ -152,7 +166,8 @@ if (fileName === 'results.html') {
                 }
             });
             nextButton.addEventListener('click', function () {
-                let currentIndex = findCurrentIndex();
+                let results = document.querySelectorAll('.result');
+                let currentIndex = findCurrentIndex(results);
 
                 // Only increment the index if it's not already at the last element
                 if (currentIndex < results.length - 1) {
