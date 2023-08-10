@@ -76,8 +76,8 @@ if (fileName === 'results.html') {
                         let html = `
                         <div class="grid-row grid-gap result" id="series-${i}">
                             <div class="tablet:grid-col-3 match bg-blue text-align-right">
-                                <!--<h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>
-                                <p class="usa-prose">Your interests have a <strong class="match-color-${matchColor}">${matchCopy} alignment</strong> with jobs in this series</p>-->
+                                <!--<h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>-->
+                                <p class="usa-prose">Your interests have a <strong class="match-color-${matchColor}">${matchCopy} alignment</strong> with jobs in this series</p>
                             </div>
                             <div class="tablet:grid-col series">
                                 <div class="series-detail">
