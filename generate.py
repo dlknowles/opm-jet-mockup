@@ -18,9 +18,9 @@ for i in range(1, 101):
             break
 
     jobs = []
-    for j in range(1, 6):
+    for j in range(1, 7):
         job = {
-            "name": f"Job{j} for Series{i}",
+            "name": f"Job {j} for Series {i}",
             "description": fake.paragraph(nb_sentences=10),
             "id": f"{i}_{j}"
         }

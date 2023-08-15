@@ -8,10 +8,10 @@ if (fileName === 'results.html') {
     fetchSeries(staticSeriesData);
 
     const matchRanges = [
-        { min: 0, max: 69, color: "red", copy: "very weak" },
-        { min: 70, max: 79, color: "orange", copy: "somewhat weak" },
-        { min: 80, max: 89, color: "yellow", copy: "somewhat strong" },
-        { min: 90, max: 100, color: "green", copy: "very strong" }
+        { min: 0, max: 79, color: "red", copy: "weak" },
+        { min: 80, max: 89, color: "orange", copy: "moderate" },
+        { min: 90, max: 95, color: "lt-green", copy: "strong" },
+        { min: 96, max: 100, color: "green", copy: "very strong" }
     ];
 
     async function fetchSeries(staticSeriesData: any) {
@@ -37,7 +37,7 @@ if (fileName === 'results.html') {
                 top10.forEach((series: any, i: number) => {
                     let html = `
                     <li>
-                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.number} - ${series.name}</a>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.number}&#8212;${series.name}</a>
                     </li>
                     `;
                     topSeriesList.innerHTML += html;
@@ -77,15 +77,15 @@ if (fileName === 'results.html') {
                         <div class="grid-row grid-gap result" id="series-${i}">
                             <div class="tablet:grid-col-3 match bg-blue text-align-right">
                                 <!--<h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>-->
-                                <p class="usa-prose">Your interests have a <strong class="match-color-${matchColor}">${matchCopy} alignment</strong> with jobs in this series</p>
+                                <p class="usa-prose">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
                             </div>
                             <div class="tablet:grid-col series">
                                 <div class="series-detail">
-                                    <h2><span class="series-name">${series.number} - ${series.name}</span></h2>
+                                    <h2><span class="series-name">${series.number}&#8212;${series.name}</span></h2>
                                     <p class="usa-prose">${series.description}</p>
                                     <div class="job-titles">
-                                        <h3>Popular job titles for this series</h3>
-                                        <p class="usa-prose">Here's a list of the <em>most applied to</em> job titles within the <span class="series-name">${series.name}</span>:</p>
+                                        <h3>Most applied to job titles within this series</h3>
+                                        <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.name}</span>:</p>-->
                                         <ul class="usa-list">
                                         ${series.jobs.map((job: any, i: number) => `
                                         <li>${job.name}</li>
@@ -96,7 +96,9 @@ if (fileName === 'results.html') {
                                 <div class="series-actions">
                                     <div class="usa-button-group">
                                         <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
-                                        <a href="#" class="usa-button">Search this series on USAJOBS</a>
+                                        <a href="#" class="usa-button"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                        <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
+                                      </svg> Find jobs in the series</a>
                                     </div>
                                 </div>
                                 <!--<div class="series-jobs">
@@ -135,15 +137,10 @@ if (fileName === 'results.html') {
 
             }
 
-            const prevButton = document.querySelector('#prev');
-            const nextButton = document.querySelector('#next');
-
             // Function to find the index of the element in the viewport
             function findCurrentIndex(results: any) {
-
                 let minDistance = Number.MAX_SAFE_INTEGER;
                 let closestIndex = 0;
-
                 results.forEach((result: any, index: number) => {
                     let distance = Math.abs(result.getBoundingClientRect().top);
                     if (distance < minDistance) {
@@ -151,31 +148,39 @@ if (fileName === 'results.html') {
                         minDistance = distance;
                     }
                 });
-
                 return closestIndex;
             }
-            prevButton.addEventListener('click', function () {
-                let results = document.querySelectorAll('.result');
-                let currentIndex = findCurrentIndex(results);
 
-                // Only decrement the index if it's not already at 0
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    // Scroll to the new current element
-                    results[currentIndex].scrollIntoView({ behavior: "smooth" });
-                }
-            });
-            nextButton.addEventListener('click', function () {
-                let results = document.querySelectorAll('.result');
-                let currentIndex = findCurrentIndex(results);
+            const prevButton = document.querySelector('#prev');
+            if (prevButton) {
+                prevButton.addEventListener('click', function () {
+                    let results = document.querySelectorAll('.result');
+                    let currentIndex = findCurrentIndex(results);
 
-                // Only increment the index if it's not already at the last element
-                if (currentIndex < results.length - 1) {
-                    currentIndex++;
-                    // Scroll to the new current element
-                    results[currentIndex].scrollIntoView({ behavior: "smooth" });
-                }
-            });
+                    // Only decrement the index if it's not already at 0
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        // Scroll to the new current element
+                        results[currentIndex].scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            }
+
+            const nextButton = document.querySelector('#next');
+            if (nextButton) {
+                nextButton.addEventListener('click', function () {
+                    let results = document.querySelectorAll('.result');
+                    let currentIndex = findCurrentIndex(results);
+
+                    // Only increment the index if it's not already at the last element
+                    if (currentIndex < results.length - 1) {
+                        currentIndex++;
+                        // Scroll to the new current element
+                        results[currentIndex].scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            }
+
         } catch (error) {
             console.error('Error:', error);
         }

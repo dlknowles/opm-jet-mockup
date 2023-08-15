@@ -47,15 +47,15 @@
                     <div class="grid-row grid-gap">
                         <div class="tablet:grid-col">
                             <ul class="usa-list usa-list--unstyled results-faqs">
-                                <li>
+                                <!-- <li>
                                     <a href="#" class="usa-link">
                                         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
                                         </svg> How did you find my match?
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a href="#" class="usa-link">
+                                    <a href="#faq" class="usa-link" aria-controls="faq" data-open-modal>
                                         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
                                         </svg> What's a job series?
@@ -71,7 +71,7 @@
                     <div id="data"></div>
                     <button id="load-more" class="usa-button usa-button--outline load-more-button">Load more results</button>
                 </div>
-                <div class="series-nav-buttons bg-gray">
+                <!-- <div class="series-nav-buttons bg-gray">
                     <div class="buttons">
                         <a href="#main" type="button" class="usa-button usa-button--outline w-auto">Top</a>
                     </div>
@@ -79,10 +79,41 @@
                         <button type="button" class="usa-button usa-button--outline w-auto" id="prev">Prev</button>
                         <button type="button" class="usa-button usa-button--outline w-auto" id="next">Next</button>
                     </div>
-                </div>
+                </div> -->
             </section>
         </main>
         <%= files.footer %>
+            <div class="usa-modal" id="faq" aria-labelledby="modal-1-heading" aria-describedby="modal-1-description">
+                <div class="usa-modal__content">
+                    <div class="usa-modal__main">
+                        <h2 class="usa-modal__heading" id="modal-1-heading">
+                            What's a job series?
+                        </h2>
+                        <div class="usa-prose">
+                            <p id="modal-1-description">
+                                The federal government categorizes jobs into groups or families of jobs or occupations. These groups are called a series. The series is a four-digit numbering system for organizing similar jobs. Related jobs will have series numbers that are closer together.
+                            </p>
+                            <p>
+                                For example, medical, dental and public health jobs will have a series between 0600–0699, where nurse jobs are in the 0610 series and nursing assistant is 0621.
+                            </p>
+                        </div>
+                        <div class="usa-modal__footer">
+                            <!-- <ul class="usa-button-group">
+                                <li class="usa-button-group__item">
+                                    <button type="button" class="usa-button usa-button--unstyled padding-105 text-center" data-close-modal>
+                                        Go back
+                                    </button>
+                                </li>
+                            </ul> -->
+                        </div>
+                    </div>
+                    <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+                        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                            <use xlink:href="assets/uswds/img/sprite.svg#close"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
 </body>
 
 </html>

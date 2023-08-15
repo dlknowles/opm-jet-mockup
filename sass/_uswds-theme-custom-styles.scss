@@ -24,10 +24,10 @@ i.e.
 
 // Define a color map
 $color-map: (
-    "match-color-red": color("red-40v"),
-    "match-color-orange": color("orange-40v"),
-    "match-color-yellow": color("yellow-40v"),
-    "match-color-green": color("green-40v")
+    "match-color-red": color("red-60v"),
+    "match-color-orange": color("orange-60v"),
+    "match-color-lt-green": color("green-70v"),
+    "match-color-green": color("green-60v")
 );
 
 // Mixin to generate classes
@@ -101,16 +101,6 @@ ul.top-series-list {
         }
     }
 }
-.results-faqs-section {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-}
-.top-series-container {
-}
-.results-faqs-container {
-    //margin-top: auto;
-}
 .intro {
     p,
     li,
@@ -125,11 +115,16 @@ ul.top-series-list {
         justify-content: center;
     }
 }
-ul.results-faqs {
-    display: flex;
-    justify-content: space-evenly;
-    li {
-        margin: ($spacer) ($spacer);
+.results-faqs-section {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    ul.results-faqs {
+        display: flex;
+        justify-content: space-evenly;
+        li {
+            margin: ($spacer * 0.5) ($spacer);
+        }
     }
 }
 .result {
@@ -353,4 +348,12 @@ ul.icon-list {
 .load-more-button {
     margin: 0 auto ($spacer * 4) auto;
     display: block;
+}
+.usa-button {
+    display: flex;
+    align-items: center;
+    svg {
+        margin-right: 4px;
+        font-size: 1.2em;
+    }
 }
