@@ -114,6 +114,15 @@ ul.top-series-list {
     &.buttons-center {
         justify-content: center;
     }
+    .usa-button:not(:first-child) {
+        margin-top: units(2);
+        @include at-media(tablet) {
+            margin-top: 0;
+        }
+    }
+    .usa-button--unstyled {
+        text-align: center;
+    }
 }
 .results-faqs-section {
     position: sticky;
@@ -282,6 +291,7 @@ $progress-color: color("mint-30v");
 }
 .mockup-nav {
     display: flex;
+    flex-wrap: wrap;
     li {
         margin: 0 $spacer;
     }
@@ -349,11 +359,18 @@ ul.icon-list {
     margin: 0 auto ($spacer * 4) auto;
     display: block;
 }
-.usa-button {
+.usa-button.find {
     display: flex;
     align-items: center;
+    text-align: center;
     svg {
         margin-right: 4px;
         font-size: 1.2em;
+    }
+}
+.quiz-start-state {
+    display: none;
+    &#div1 {
+        display: block;
     }
 }

@@ -4,7 +4,7 @@ const fileName = pathSegments[pathSegments.length - 1]; // Get the last segment
 console.log(fileName);
 
 if (fileName === 'results.html') {
-    const staticSeriesData = './data/series.json';
+    const staticSeriesData = './data/jet-series.json';
     fetchSeries(staticSeriesData);
 
     const matchRanges = [
@@ -18,12 +18,13 @@ if (fileName === 'results.html') {
         try {
             const res = await fetch(staticSeriesData);
             const data = await res.json();
-            const seriesArr = data['series'];
+            console.log(data);
+            const seriesArr = data['Series'];
             seriesArr.sort((a: any, b: any) => {
-                if (a.match < b.match) {
+                if (a.Match < b.Match) {
                     return 1;
                 }
-                if (a.match > b.match) {
+                if (a.Match > b.Match) {
                     return -1;
                 }
                 return 0;
@@ -37,7 +38,7 @@ if (fileName === 'results.html') {
                 top10.forEach((series: any, i: number) => {
                     let html = `
                     <li>
-                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.number}&#8212;${series.name}</a>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.CodeName}</a>
                     </li>
                     `;
                     topSeriesList.innerHTML += html;
@@ -66,7 +67,7 @@ if (fileName === 'results.html') {
                         const series = seriesArr[i];
 
                         // Get the match number for the series
-                        let match = series.match;
+                        let match = series.Match;
                         // Find the color range that match falls into
                         let matchRange = matchRanges.find(range => match >= range.min && match <= range.max);
                         // Get the color class from the color range, or a default class if no range is found
@@ -76,19 +77,19 @@ if (fileName === 'results.html') {
                         let html = `
                         <div class="grid-row grid-gap result" id="series-${i}">
                             <div class="tablet:grid-col-3 match bg-blue text-align-right">
-                                <!--<h2 class="match-number match-color-${matchColor}">${series.match}% Match</h2>-->
+                                <!--<h2 class="match-number match-color-${matchColor}">${series.Match}% Match</h2>-->
                                 <p class="usa-prose">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
                             </div>
                             <div class="tablet:grid-col series">
                                 <div class="series-detail">
-                                    <h2><span class="series-name">${series.number}&#8212;${series.name}</span></h2>
-                                    <p class="usa-prose">${series.description}</p>
+                                    <h2><span class="series-name">${series.CodeName}</span></h2>
+                                    <p class="usa-prose">${series.Description}</p>
                                     <div class="job-titles">
                                         <h3>Most applied to job titles within this series</h3>
-                                        <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.name}</span>:</p>-->
+                                        <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
                                         <ul class="usa-list">
-                                        ${series.jobs.map((job: any, i: number) => `
-                                        <li>${job.name}</li>
+                                        ${series.JobTitles.map((job: any, i: number) => `
+                                        <li>${job}</li>
                                         `).join('')}
                                         </ul>
                                     </div>
@@ -96,24 +97,11 @@ if (fileName === 'results.html') {
                                 <div class="series-actions">
                                     <div class="usa-button-group">
                                         <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
-                                        <a href="#" class="usa-button"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                        <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button find"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                         <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
-                                      </svg> Find jobs in the series</a>
+                                      </svg> Find jobs in this series</a>
                                     </div>
                                 </div>
-                                <!--<div class="series-jobs">
-                                    <h3>Common job titles for the <span class="series-name">${series.name}</span></h3>
-                                    <div class="usa-accordion usa-accordion--bordered usa-accordion--multiselectable" data-allow-multiple>
-                                        ${series.jobs.map((job: any, i: number) => `
-                                        <h4 class="usa-accordion__heading">
-                                            <button type="button" class="usa-accordion__button" ${(i === 0) ? 'aria-expanded="true"' : 'aria-expanded="false"'} aria-controls="a${job.id}">${job.name}</button>
-                                        </h4>
-                                        <div id="a${job.id}" class="usa-accordion__content" ${(i === 0) ? '' : 'hidden'}>
-                                            <p class="usa-prose">${job.description}</p>
-                                        </div>
-                                        `).join('')}
-                                    </div>
-                                </div>-->
                             </div>
                         </div>
                         `;
@@ -322,11 +310,11 @@ if (fileName === 'quiz.html') {
                     const parentQuestion = currentRadioButton.closest('.question');
                     const questionIndex = Array.from(questions).indexOf(parentQuestion);
 
-                    // Only navigate if the question hasn't been answered yet
-                    if (!answeredQuestions.has(questionIndex)) {
-                        navigateToQuestion(currentQuestionIndex + 1);
-                        answeredQuestions.add(questionIndex);  // Mark the question as answered
-                    }
+                    // // Only navigate if the question hasn't been answered yet
+                    // if (!answeredQuestions.has(questionIndex)) {
+                    //     navigateToQuestion(currentQuestionIndex + 1);
+                    //     answeredQuestions.add(questionIndex);  // Mark the question as answered
+                    // }
 
                     updatePrevButtonVisibility();
                     updateNextButtonState();
@@ -394,8 +382,16 @@ if (fileName === 'quiz.html') {
 
                 const progressPercentage = (answeredCount / totalQuestions) * 100;
 
-                (document.querySelector('#progressBar') as HTMLElement).style.width = `${progressPercentage}%`;
-                (document.querySelector('#progressText') as HTMLElement).textContent = `Progress: ${Math.round(progressPercentage)}% Complete`;
+                const progressBar = document.querySelector('#progressBar') as HTMLElement;
+                if (progressBar) {
+                    progressBar.style.width = `${progressPercentage}%`;
+                }
+                const progressText = document.querySelector('#progressText') as HTMLElement;
+                if (progressText) {
+                    //progressText.textContent = `Progress: ${Math.round(progressPercentage)}% Complete`;
+                    progressText.textContent = `Progress: ${Math.round(progressPercentage)}% Complete (${answeredCount}/${totalQuestions})`;
+
+                }
             }
 
             function areAllQuestionsAnswered(): boolean {
@@ -419,4 +415,32 @@ if (fileName === 'quiz.html') {
             console.error('Error:', error);
         }
     }
+}
+if (fileName === 'index.html') {
+
+    const div1 = document.getElementById("div1");
+    const div2 = document.getElementById("div2");
+    const div3 = document.getElementById("div3");
+
+    document.getElementById("showDiv1").addEventListener("click", function () {
+        hideAllDivs();
+        div1.style.display = "block";
+    });
+
+    document.getElementById("showDiv2").addEventListener("click", function () {
+        hideAllDivs();
+        div2.style.display = "block";
+    });
+
+    document.getElementById("showDiv3").addEventListener("click", function () {
+        hideAllDivs();
+        div3.style.display = "block";
+    });
+
+    function hideAllDivs() {
+        div1.style.display = "none";
+        div2.style.display = "none";
+        div3.style.display = "none";
+    }
+
 }
