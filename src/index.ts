@@ -38,7 +38,7 @@ if (fileName === 'results.html') {
                 top10.forEach((series: any, i: number) => {
                     let html = `
                     <li>
-                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.CodeName}</a>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.CodeName} Series</a>
                     </li>
                     `;
                     topSeriesList.innerHTML += html;
@@ -82,7 +82,7 @@ if (fileName === 'results.html') {
                             </div>
                             <div class="tablet:grid-col series">
                                 <div class="series-detail">
-                                    <h2><span class="series-name">${series.CodeName}</span></h2>
+                                    <h2><span class="series-name">${series.CodeName} Series</span></h2>
                                     <p class="usa-prose">${series.Description}</p>
                                     <div class="job-titles">
                                         <h3>Most applied to job titles within this series</h3>
