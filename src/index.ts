@@ -4,6 +4,31 @@ const fileName = pathSegments[pathSegments.length - 1]; // Get the last segment
 console.log(fileName);
 
 if (fileName === 'results.html') {
+
+    const loadingContainer = document.querySelector('.loading-container') as HTMLElement;
+    const animation = document.querySelector('.loading-container > div') as HTMLElement;
+
+    // Function to show the loading animation
+    const showLoadingAnimation = () => {
+        loadingContainer.style.display = 'flex';  // use 'flex' to center the beaker and bubbles
+        setTimeout(() => {
+            animation.style.opacity = '0';
+        }, 2500);
+
+        // After 5 seconds, start the fade-out effect
+        setTimeout(() => {
+            loadingContainer.style.opacity = '0';
+
+            // After 1 more second (the duration of the fade-out effect), hide the loading container
+            setTimeout(() => {
+                loadingContainer.style.display = 'none';
+            }, 1000);
+        }, 3000);
+    };
+
+    // Call this function when you navigate to the results page
+    showLoadingAnimation();
+
     const staticSeriesData = './data/jet-series.json';
     fetchSeries(staticSeriesData);
 
@@ -443,4 +468,185 @@ if (fileName === 'index.html') {
         div3.style.display = "none";
     }
 
+}
+
+if (fileName === 'quiz-v3.html') {
+    const staticQuestionsData = './data/questions.json';
+    fetchQuestionsV3(staticQuestionsData);
+
+    async function fetchQuestionsV3(staticQuestionsData: any) {
+        try {
+            const res = await fetch(staticQuestionsData);
+            const data = await res.json();
+            const questionsArr = data['questions'];
+
+            const addRadioButtons = (n: number, fieldsetId: string) => {
+                const labels = ['Not Interested', 'Slightly Interested', 'Moderately Interested', 'Very Interested', 'Extremely Interested'];
+                const fieldset = document.querySelector('#' + fieldsetId);
+                for (let i = 1; i <= n; i++) {
+                    let html = `
+                    <div class="selection" tabindex="0">
+                        ${labels[i - 1]}
+                    </div>
+                    `;
+                    if (fieldset) {
+                        fieldset.innerHTML += html;
+                    }
+                }
+            };
+
+            const progressBar = document.querySelector('#progress-bar') as HTMLElement;
+            const questionsContainer = document.querySelector('#quiz-container') as HTMLElement;
+
+            if (questionsContainer) {
+                questionsArr.forEach((question: any, i: number) => {
+                    let fieldsetId = `rating${i}`;
+                    let html = `
+                        <div class="question" data-question="${i + 1}">
+                            <div class="question-content">
+                            
+                                    <h2><div class="question-number"><span class="sr-only">Question</span>${i + 1}</div><div class="question-text"><span class="question-number"><span class="sr-only">Question</span>${i + 1}. </span>How interested are you in doing these activities at work?</div></h2>
+                                    <p>${question.question}</p>
+        
+                                <fieldset class="usa-fieldset">
+                                    <legend class="usa-legend">Select one rating</legend>
+                                    <div class="selections" id="${fieldsetId}"></div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        `;
+                    questionsContainer.innerHTML += html;
+                    addRadioButtons(5, fieldsetId);
+                });
+
+                let completeScreen = `
+                    <div class="question" data-question="26">
+                        <div class="question-content submit-quiz">
+                            <div>
+                                <h2>Great job!</h2>
+                                <p>You've answered all the questions.</p>
+                                <p>Submit your answers to see your results.</p>
+                                <a href="results.html" class="usa-button">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                questionsContainer.innerHTML += completeScreen;
+
+                let currentQuestion = 1;
+
+                const handleSelection = (target: HTMLElement) => {
+                    target.closest('.selections')?.querySelectorAll('.selection').forEach((selection) => {
+                        selection.classList.remove('selected');
+                    });
+                    target.classList.add('selected');
+
+                    const currentElement = target.closest('.question') as HTMLElement;
+                    const currentQuestionNumber = Number(currentElement.dataset.question);
+
+                    if (currentQuestionNumber === currentQuestion) {
+                        currentQuestion++;
+                        navigateToQuestion(currentQuestion);
+                        updateProgress();
+                    }
+                };
+
+                const navigateToQuestion = (questionNumber: number) => {
+                    const targetElement = questionsContainer.querySelector(`.question[data-question="${questionNumber}"]`) as HTMLElement;
+
+                    if (targetElement) {
+                        targetElement.style.display = 'flex';
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    }
+                };
+
+                const updateProgress = () => {
+                    // Update progress bar
+                    const progressPercentage = ((currentQuestion - 1) / questionsArr.length) * 100;
+                    progressBar.style.width = progressPercentage + '%';
+
+                    // Update progress text
+                    const progressTextElement = document.querySelector('#progress-text');
+                    if (progressTextElement) {
+                        progressTextElement.textContent = `Progress: ${currentQuestion - 1}/25 answered - ${Math.floor(progressPercentage)}% complete`;
+                    }
+                };
+
+                questionsContainer.addEventListener('click', function (event) {
+                    const target = event.target as HTMLElement;
+                    if (target.classList.contains('selection')) {
+                        event.preventDefault();
+                        handleSelection(target);
+                    }
+                });
+
+                questionsContainer.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        const target = event.target as HTMLElement;
+                        if (target.classList.contains('selection')) {
+                            event.preventDefault();
+                            handleSelection(target);
+                        }
+                    }
+                });
+
+                // Auto answer first 24 questions
+                const autoAnswerButton = document.querySelector('#auto-answer-button');
+                if (autoAnswerButton) {
+                    autoAnswerButton.addEventListener('click', function () {
+                        for (let i = 1; i <= 24; i++) {
+                            const questionElement = questionsContainer.querySelector(`.question[data-question="${i}"]`) as HTMLElement;
+                            if (questionElement) {
+                                const selections = questionElement.querySelectorAll('.selection');
+                                const targetSelection = selections[0]; // Select the first option for simplicity
+                                if (targetSelection) {
+                                    handleSelection(targetSelection as HTMLElement);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // const prevButton = document.querySelector('.prev-button') as HTMLButtonElement;
+                // const nextButton = document.querySelector('.next-button') as HTMLButtonElement;
+
+                // if (prevButton) {
+                //     prevButton.addEventListener('click', () => goToPreviousQuestion());
+                // }
+                // if (nextButton) {
+                //     nextButton.addEventListener('click', () => goToNextQuestion());
+                // }
+
+                // const goToNextQuestion = () => {
+
+                // };
+
+                // const goToPreviousQuestion = () => {
+
+                // };
+
+                // const updateProgressBar = () => {
+                //     const progressPercentage = (currentQuestion / questionsArr.length) * 100;
+                //     console.log(progressPercentage);
+                //     progressBar.style.width = progressPercentage + '%';
+                // };
+
+                // const updateProgressText = () => {
+                //     const progressTextElement = document.querySelector('#progress-text');
+                //     const progressPercentage = Math.floor((currentQuestion / questionsArr.length) * 100);
+
+                //     if (progressTextElement) {
+                //         progressTextElement.textContent = `Answered ${currentQuestion}/25 - ${progressPercentage}% Complete`;
+                //     }
+                // };
+
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 }

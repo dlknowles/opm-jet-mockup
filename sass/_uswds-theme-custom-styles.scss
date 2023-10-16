@@ -51,6 +51,10 @@ $spacer: 1rem;
 html {
     scroll-behavior: smooth;
 }
+body {
+    font-size: 1rem;
+    line-height: 1.5;
+}
 h1 {
     @include typeset("sans", 15, 2);
     span {
@@ -130,15 +134,25 @@ ul.top-series-list {
     z-index: 2;
     ul.results-faqs {
         display: flex;
+        flex-direction: column;
         justify-content: space-evenly;
+        @include at-media(tablet) {
+            flex-direction: row;
+        }
         li {
             margin: ($spacer * 0.5) ($spacer);
         }
     }
 }
 .result {
-    padding-top: ($spacer * 6);
-    padding-bottom: ($spacer * 6);
+    padding-top: ($spacer * 3);
+    padding-bottom: ($spacer * 3);
+    &:first-child {
+        padding-top: ($spacer * 6);
+    }
+    &:last-child {
+        padding-bottom: ($spacer * 6);
+    }
 }
 .match {
     & > * {
@@ -372,5 +386,229 @@ ul.icon-list {
     display: none;
     &#div1 {
         display: block;
+    }
+}
+
+#quiz-container {
+    height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    .question {
+        display: none;
+        scroll-snap-align: center;
+        min-height: 100%;
+        padding: 20px;
+        justify-content: center;
+        align-items: center;
+        .question-content {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            flex: 1;
+            &.submit-quiz {
+                text-align: center;
+                
+                h2 {
+                    display: block;
+                    //font-size: 2rem;
+                }
+                p {
+                    font-size: 1.5rem;
+                }
+                .usa-button {
+                    margin-right: 0;
+                    font-size: 1.25rem;
+                    padding: 0.75rem 0.5rem;
+                    border-radius: 0.25rem;
+                    transition: all 200ms ease-in;
+                }
+            }
+            h2 {
+                margin-top: 0;
+                margin-bottom: units(3);
+                display: flex;
+                .question-number {
+                    display: none;
+                    @media screen and (min-width: 730px) {
+                        height: 40px;
+                        width: 40px;
+                        border: 2px solid color("ink");
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        position: absolute;
+                        margin-left: -56px;
+                    }
+                }
+                .question-text {
+                    .question-number {
+                        display: inline;
+                        @media screen and (min-width: 730px) {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            p {
+                font-size: 1.2rem;
+            }
+            .usa-fieldset, .usa-button {
+                margin-top: units(5);
+            }
+        }
+    }
+    .question[data-question="1"] {
+        display: flex;
+    }
+}
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+.selections {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    .selection {
+        text-align: left;
+        margin-bottom: $spacer * 0.5;
+        display: flex;
+        align-items: center;
+        font-size: 1.25rem;
+        font-weight: 400;
+        padding: 0.75rem 0.5rem;
+        background-color: color("white");
+        color: color("primary");
+        border: 2px solid color("primary");
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: all 200ms ease-in;
+
+        &:before {
+            content: "";
+            height: 20px;
+            width: 20px;
+            background-color: color("primary");
+            mask: url("/assets/uswds/img/usa-icons/radio_button_unchecked.svg") center/contain no-repeat;
+            transition: all 200ms ease-in;
+            margin-right: 4px;
+        }
+        &.selected {
+            background-color: color("primary");
+            color: color("white");
+            &:before {
+                background-color: color("white");
+                mask: url("/assets/uswds/img/usa-icons/check_circle.svg") center/contain no-repeat;
+            }
+        }
+    }
+}
+
+#progress-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: color("white");
+}
+
+#progress-bar {
+    height: 8px;
+    width: 0;
+    background-color: color("primary");
+    transition: width 0.3s ease;
+}
+#progress-text {
+    text-align: center;
+    padding: 0.5rem 1rem;
+}
+
+#auto-answer-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.nav-buttons {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+@keyframes bubbleUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+}
+
+.bubble {
+    width: 10px;
+    height: 10px;
+    background-color: color("primary");
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10%; /* Adjust based on beaker's design */
+    animation: bubbleUp 1.5s infinite;
+}
+
+.bubble1 {
+    left: 20%;
+    animation-delay: 0.2s;
+}
+
+.bubble2 {
+    left: 50%;
+    animation-delay: 0.5s;
+}
+
+.bubble3 {
+    left: 80%;
+    animation-delay: 0.8s;
+}
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 1);  /* semi-transparent white background */
+    display: none;
+    justify-content: center;  /* center the beaker and bubbles horizontally */
+    align-items: center;      /* center the beaker and bubbles vertically */
+    opacity: 1;
+    transition: opacity 0.5s ease;  /* smooth fade-out effect */
+    z-index: 9999;  /* to make sure it appears on top of other content */
+    p {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+.beaker {
+    height: 200px;
+    width: 200px;
+    opacity: 1;
+    svg path {
+        stroke: color("primary");
+        stroke-width: 1px;
+    }
+    svg ellipse {
+        fill: color("primary");
     }
 }
