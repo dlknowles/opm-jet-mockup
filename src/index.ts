@@ -3,6 +3,41 @@ const pathSegments = path.split('/'); // Split the path into segments
 const fileName = pathSegments[pathSegments.length - 1]; // Get the last segment
 console.log(fileName);
 
+
+document.getElementById('menuToggle')?.addEventListener('click', function () {
+    document.querySelector('.mockup-nav')?.classList.toggle('hidden');
+});
+
+
+if (fileName === 'index.html') {
+
+    const div1 = document.getElementById("div1");
+    const div2 = document.getElementById("div2");
+    const div3 = document.getElementById("div3");
+
+    document.getElementById("showDiv1").addEventListener("click", function () {
+        hideAllDivs();
+        div1.style.display = "block";
+    });
+
+    document.getElementById("showDiv2").addEventListener("click", function () {
+        hideAllDivs();
+        div2.style.display = "block";
+    });
+
+    document.getElementById("showDiv3").addEventListener("click", function () {
+        hideAllDivs();
+        div3.style.display = "block";
+    });
+
+    function hideAllDivs() {
+        div1.style.display = "none";
+        div2.style.display = "none";
+        div3.style.display = "none";
+    }
+
+}
+
 if (fileName === 'results.html') {
 
     const loadingContainer = document.querySelector('.loading-container') as HTMLElement;
@@ -13,7 +48,7 @@ if (fileName === 'results.html') {
         loadingContainer.style.display = 'flex';  // use 'flex' to center the beaker and bubbles
         setTimeout(() => {
             animation.style.opacity = '0';
-        }, 2500);
+        }, 3500);
 
         // After 5 seconds, start the fade-out effect
         setTimeout(() => {
@@ -23,7 +58,7 @@ if (fileName === 'results.html') {
             setTimeout(() => {
                 loadingContainer.style.display = 'none';
             }, 1000);
-        }, 3000);
+        }, 4000);
     };
 
     // Call this function when you navigate to the results page
@@ -122,7 +157,7 @@ if (fileName === 'results.html') {
                                 <div class="series-actions">
                                     <div class="usa-button-group">
                                         <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
-                                        <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button find"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                        <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                         <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
                                       </svg> Find jobs in this series</a>
                                     </div>
@@ -200,7 +235,7 @@ if (fileName === 'results.html') {
     }
 }
 
-if (fileName === 'quiz.html') {
+if (fileName === 'quiz-old.html') {
     const staticQuestionsData = './data/questions.json';
     fetchQuestions(staticQuestionsData);
 
@@ -441,36 +476,8 @@ if (fileName === 'quiz.html') {
         }
     }
 }
-if (fileName === 'index.html') {
 
-    const div1 = document.getElementById("div1");
-    const div2 = document.getElementById("div2");
-    const div3 = document.getElementById("div3");
-
-    document.getElementById("showDiv1").addEventListener("click", function () {
-        hideAllDivs();
-        div1.style.display = "block";
-    });
-
-    document.getElementById("showDiv2").addEventListener("click", function () {
-        hideAllDivs();
-        div2.style.display = "block";
-    });
-
-    document.getElementById("showDiv3").addEventListener("click", function () {
-        hideAllDivs();
-        div3.style.display = "block";
-    });
-
-    function hideAllDivs() {
-        div1.style.display = "none";
-        div2.style.display = "none";
-        div3.style.display = "none";
-    }
-
-}
-
-if (fileName === 'quiz-v3.html') {
+if (fileName === 'quiz.html') {
     const staticQuestionsData = './data/questions.json';
     fetchQuestionsV3(staticQuestionsData);
 
@@ -499,13 +506,28 @@ if (fileName === 'quiz-v3.html') {
             const questionsContainer = document.querySelector('#quiz-container') as HTMLElement;
 
             if (questionsContainer) {
+
+                let startScreen = `
+                    <div class="question" data-question="0">
+                        <div class="question-content submit-quiz">
+                            <div>
+                                <h2>Take this 25-question quiz and find out how well your interests align with jobs in the federal government.</h2>
+                                <!--<h2>How interested are you in doing the following activities at work?</h2>-->
+                                <a class="usa-button selection" tabindex="0">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                questionsContainer.innerHTML += startScreen;
+
                 questionsArr.forEach((question: any, i: number) => {
                     let fieldsetId = `rating${i}`;
                     let html = `
                         <div class="question" data-question="${i + 1}">
                             <div class="question-content">
                             
-                                    <h2><div class="question-number"><span class="sr-only">Question</span>${i + 1}</div><div class="question-text"><span class="question-number"><span class="sr-only">Question</span>${i + 1}. </span>How interested are you in doing these activities at work?</div></h2>
+                                    <h2><div class="question-number"><span class="sr-only">Question</span>${i + 1}</div><div class="question-text"><span class="question-number"><span class="sr-only">Question</span>${i + 1}. </span>Rate your interest</div></h2>
                                     <p>${question.question}</p>
         
                                 <fieldset class="usa-fieldset">
@@ -523,10 +545,9 @@ if (fileName === 'quiz-v3.html') {
                     <div class="question" data-question="26">
                         <div class="question-content submit-quiz">
                             <div>
-                                <h2>Great job!</h2>
-                                <p>You've answered all the questions.</p>
-                                <p>Submit your answers to see your results.</p>
-                                <a href="results.html" class="usa-button">Submit</a>
+                                <h2>Great!</h2>
+                                <p>You've answered all the questions. <br>Submit the quiz to see your results.</p>
+                                <a href="results.html" class="usa-button">See your results</a>
                             </div>
                         </div>
                     </div>
@@ -534,7 +555,7 @@ if (fileName === 'quiz-v3.html') {
 
                 questionsContainer.innerHTML += completeScreen;
 
-                let currentQuestion = 1;
+                let currentQuestion = 0;
 
                 const handleSelection = (target: HTMLElement) => {
                     target.closest('.selections')?.querySelectorAll('.selection').forEach((selection) => {
@@ -554,11 +575,16 @@ if (fileName === 'quiz-v3.html') {
 
                 const navigateToQuestion = (questionNumber: number) => {
                     const targetElement = questionsContainer.querySelector(`.question[data-question="${questionNumber}"]`) as HTMLElement;
-
+                    console.log(targetElement);
                     if (targetElement) {
                         targetElement.style.display = 'flex';
                         setTimeout(() => {
                             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            if (questionNumber === 1) {
+                                setTimeout(() => {
+                                    (document.querySelector('.question[data-question="0"]') as HTMLElement).style.display = 'none';
+                                }, 300);
+                            }
                         }, 300);
                     }
                 };
@@ -571,7 +597,7 @@ if (fileName === 'quiz-v3.html') {
                     // Update progress text
                     const progressTextElement = document.querySelector('#progress-text');
                     if (progressTextElement) {
-                        progressTextElement.textContent = `Progress: ${currentQuestion - 1}/25 answered - ${Math.floor(progressPercentage)}% complete`;
+                        progressTextElement.textContent = `${Math.floor(progressPercentage)}% Complete | ${currentQuestion - 1}/25 Answered (progress saved!)`;
                     }
                 };
 
@@ -594,7 +620,7 @@ if (fileName === 'quiz-v3.html') {
                 });
 
                 // Auto answer first 24 questions
-                const autoAnswerButton = document.querySelector('#auto-answer-button');
+                const autoAnswerButton = document.querySelector('#autoAnswer');
                 if (autoAnswerButton) {
                     autoAnswerButton.addEventListener('click', function () {
                         for (let i = 1; i <= 24; i++) {

@@ -42,8 +42,8 @@ module.exports = {
             }
         }),
         new HtmlWebpackPlugin({
-            template: './src/quiz-v3.html',
-            filename: './quiz-v3.html',
+            template: './src/quiz-old.html',
+            filename: './quiz-old.html',
             templateParameters: {
                 files
             }
