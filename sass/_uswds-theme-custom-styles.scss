@@ -20,6 +20,12 @@ i.e.
 ----------------------------------------
 */
 
+// Image path dev
+$assetPath: "/assets/uswds/img/usa-icons";
+
+// Image path prod
+//$assetPath: "../img/usa-icons";
+
 @use "uswds-core" as *;
 
 // reset
@@ -27,10 +33,6 @@ i.e.
 *::before,
 *::after {
     box-sizing: border-box;
-}
-
-* {
-    margin: 0;
 }
 
 body {
@@ -43,7 +45,7 @@ picture,
 video,
 canvas,
 svg {
-    display: block;
+    display: inline-block;
     max-width: 100%;
 }
 
@@ -85,6 +87,8 @@ $color-map: (
 
 $spacer: 1rem;
 
+$border: 1px solid color("gray-20");
+
 * {
     box-sizing: border-box;
 }
@@ -104,14 +108,24 @@ p {
 }
 .intro h1 {
     span {
-        @include typeset("sans", 11, 2);
+        margin-top: -20px;
         display: block;
+        @include typeset("sans", 11, 1);
         @include at-media(tablet) {
-            @include typeset("sans", 13, 2);
+            @include typeset("sans", 13, 1);
         }
     }
 }
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
 ul.icon-list {
+    margin: 3.5rem 0;
     li {
         display: flex;
         align-items: center;
@@ -136,24 +150,21 @@ ul.icon-list {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: units(3) 0;
 }
 .vh-100 {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: units(3) 0;
 }
 .bg-blue {
     background-color: color("blue-5");
 }
-.bg-gray {
-    background-color: color("gray-2");
-}
 .bg-grad {
-    background: color("blue-5");
-    background: radial-gradient(circle, color("white") 30%, color("yellow-10") 90%);
-    // background: radial-gradient(circle, color("white") 20%, color("yellow-10") 80%, color("yellow-20") 100%);
-    background-attachment: fixed;
+    background: color("yellow-5");
+    background: radial-gradient(circle, color("white") 50%, color("yellow-5") 100%);
 }
 .w-auto {
     width: auto !important;
@@ -225,6 +236,9 @@ ul.top-series-list {
     &.buttons-center {
         justify-content: center;
     }
+    .usa-button:last-child {
+        margin-right: 0;
+    }
     .usa-button:not(:first-child) {
         margin-top: units(2);
         @include at-media(tablet) {
@@ -235,10 +249,17 @@ ul.top-series-list {
         text-align: center;
     }
 }
+.top-results {
+    padding-top: units(6);
+    padding-bottom: units(6);
+}
 .results-faqs-section {
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    //position: sticky;
+    //top: 0;
+    //z-index: 2;
+    background-color: color("gray-3");
+    border-top: $border;
+    border-bottom: $border;
     ul.results-faqs {
         display: flex;
         flex-direction: column;
@@ -254,6 +275,10 @@ ul.top-series-list {
 .result {
     padding-top: units(6);
     padding-bottom: units(6);
+    border-bottom: $border;
+    &:nth-child(even) {
+        background-color: color("gray-2");
+    }
     // &:first-child {
     //     padding-top: ($spacer * 6);
     // }
@@ -262,10 +287,7 @@ ul.top-series-list {
     // }
 }
 .match {
-    & > * {
-        margin-left: ($spacer * 0.5);
-        margin-right: ($spacer * 0.5);
-    }
+    padding: units(2);
 }
 .series {
     .series-detail {
@@ -275,7 +297,10 @@ ul.top-series-list {
     }
     .series-actions {
         margin-top: ($spacer * 3);
-        margin-bottom: ($spacer * 3);
+        margin-bottom: 0;
+        @include at-media(tablet) {
+            margin-bottom: ($spacer * 3);
+        }
     }
     h2 {
         span:not(:last-child) {
@@ -421,7 +446,10 @@ $progress-color: color("mint-30v");
         width: 158px;
     }
     .links {
-        display: flex;
+        display: none;
+        @include at-media(mobile-lg) {
+            display: flex;
+        }
         li {
             margin: 0 ($spacer * 2);
         }
@@ -442,12 +470,13 @@ $progress-color: color("mint-30v");
     }
 }
 .load-more-button {
-    margin: 0 auto ($spacer * 4) auto;
+    margin: ($spacer * 3) auto;
     display: block;
 }
 .usa-button.icon {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-align: center;
     svg {
         margin-right: 4px;
@@ -461,6 +490,7 @@ $progress-color: color("mint-30v");
     }
 }
 
+// New quiz UI
 #quiz-container {
     height: 100vh;
     width: 100%;
@@ -471,36 +501,45 @@ $progress-color: color("mint-30v");
         display: none;
         scroll-snap-align: center;
         min-height: 100%;
-        padding: 20px;
+        padding: 64px 16px;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        &.question-intro,
+        &.question-submit {
+            align-items: center;
+            h1,
+            h2 {
+                margin-bottom: 1.5rem;
+            }
+        }
+        @include at-media(mobile-lg) {
+            align-items: center;
+            padding: 16px;
+        }
+
         .question-content {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0px auto;
             position: relative;
             flex: 1;
+            & > * {
+                margin-bottom: 1.5rem;
+            }
             &.submit-quiz {
                 text-align: center;
 
                 h2 {
                     display: block;
-                    //font-size: 2rem;
-                }
-                p {
-                    font-size: 1.5rem;
                 }
                 .usa-button {
                     margin-top: 0;
                     margin-right: 0;
-                    font-size: 1.25rem;
                     padding: 0.75rem 1rem;
                     border-radius: 0.25rem;
                     transition: all 200ms ease-in;
                 }
             }
             h2 {
-                margin-top: 0;
-                margin-bottom: units(3);
                 display: flex;
                 .question-number {
                     display: none;
@@ -513,6 +552,7 @@ $progress-color: color("mint-30v");
                         align-items: center;
                         border-radius: 50%;
                         position: absolute;
+                        margin-top: -6px;
                         margin-left: -56px;
                     }
                 }
@@ -524,9 +564,6 @@ $progress-color: color("mint-30v");
                         }
                     }
                 }
-            }
-            p {
-                font-size: 1.2rem;
             }
             .usa-fieldset,
             .usa-button {
@@ -549,6 +586,8 @@ $progress-color: color("mint-30v");
     white-space: nowrap;
     border-width: 0;
 }
+
+// Quiz selections
 .selections {
     display: flex;
     flex-direction: column;
@@ -558,7 +597,6 @@ $progress-color: color("mint-30v");
         margin-bottom: $spacer * 0.5;
         display: flex;
         align-items: center;
-        font-size: 1.25rem;
         font-weight: 400;
         padding: 0.75rem 0.5rem;
         background-color: color("white");
@@ -573,7 +611,7 @@ $progress-color: color("mint-30v");
             height: 20px;
             width: 20px;
             background-color: color("primary");
-            mask: url("/assets/uswds/img/usa-icons/radio_button_unchecked.svg") center/contain no-repeat;
+            mask: url("#{$assetPath}/radio_button_unchecked.svg") center/contain no-repeat;
             transition: all 200ms ease-in;
             margin-right: 4px;
         }
@@ -582,42 +620,42 @@ $progress-color: color("mint-30v");
             color: color("white");
             &:before {
                 background-color: color("white");
-                mask: url("/assets/uswds/img/usa-icons/check_circle.svg") center/contain no-repeat;
+                mask: url("#{$assetPath}/check_circle.svg") center/contain no-repeat;
             }
         }
     }
 }
 
-#progress-container {
+// Progress bar
+.quiz-top-container {
+    padding: 12px 0 4px 0;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    background: color("white");
+    background-color: color("gray-3");
+    border-bottom: $border;
+    #progress-bar {
+        position: absolute;
+        top: 0;
+        height: 8px;
+        width: 0;
+        background-color: color("primary");
+        transition: width 0.3s ease;
+    }
+    #progress-text {
+        font-size: 1rem;
+        text-align: center;
+    }
+    .pt-complete {
+        display: none;
+    }
 }
-
-#progress-bar {
-    height: 8px;
-    width: 0;
-    background-color: color("primary");
-    transition: width 0.3s ease;
-}
-#progress-text {
-    text-align: center;
-    padding: 0.5rem 1rem;
-}
-
 #auto-answer-button {
     position: absolute;
     bottom: 0;
     left: 0;
 }
-.nav-buttons {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-}
-
 .loading-container {
     position: fixed;
     top: 0;
@@ -630,9 +668,8 @@ $progress-color: color("mint-30v");
     align-items: center;
     opacity: 1;
     transition: opacity 0.5s ease;
-    z-index: 9999;
+    z-index: 99999;
     p {
-        font-size: 1.5rem;
         text-align: center;
     }
 }

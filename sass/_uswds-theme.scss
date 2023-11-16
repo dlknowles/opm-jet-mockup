@@ -8,10 +8,12 @@ in the form $setting: value,
 */
 
 @use "uswds-core" with (
-    $theme-show-notifications: false,
-    $theme-link-visited-color: "primary",
-    $theme-image-path: "../img",
-    $theme-banner-max-width: "desktop-lg",
-    $theme-grid-container-max-width: "desktop-lg",
-    $theme-column-gap-desktop: 6
-);
+        $theme-show-notifications: false,
+        $theme-link-visited-color: "primary",
+        $theme-image-path: "../img",
+        $theme-banner-max-width: "desktop-lg",
+        $theme-grid-container-max-width: "desktop-lg",
+        $theme-column-gap-desktop: 6,
+        $theme-column-gap-sm: 4,
+        //$theme-font-type-sans: "public-sans"
+    );
