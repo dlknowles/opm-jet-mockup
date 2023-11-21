@@ -21,10 +21,10 @@ i.e.
 */
 
 // Image path dev
-$assetPath: "/assets/uswds/img/usa-icons";
+//$assetPath: "/assets/uswds/img/usa-icons";
 
 // Image path prod
-//$assetPath: "../img/usa-icons";
+$assetPath: "../img/usa-icons";
 
 @use "uswds-core" as *;
 
@@ -118,11 +118,20 @@ p {
 }
 .text-xl {
     font-size: 1.25rem;
-    line-height: 1.75rem;
+    &:not(.usa-button) {
+        line-height: 1.75rem;
+    }
 }
 .text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+}
+.text-5xl {
+    font-size: 2rem;
+    line-height: 1;
+    @include at-media(tablet) {
+        font-size: 3rem;
+    }
 }
 ul.icon-list {
     margin: 3.5rem 0;
@@ -170,9 +179,16 @@ ul.icon-list {
     width: auto !important;
 }
 .text-align-right {
-    @include at-media(tablet) {
+    @include at-media(tablet-lg) {
         text-align: right;
     }
+}
+.helper-link {
+    color: color("ink");
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-position: under;
 }
 .mockup-menu {
     position: fixed;
@@ -219,11 +235,19 @@ ul.icon-list {
 }
 ul.top-series-list {
     li {
-        margin: ($spacer) 0;
+        margin: units(2) 0;
+        //border-bottom: 1px solid color("gray-20");
         a {
-            @include typeset("sans", 7, 3);
+            display: inline-block;
+            font-size: 1.25rem;
+            line-height: 1.25;
             text-decoration: none;
             font-weight: bold;
+            // background: color("blue-5");
+            // padding: units(1) units(2);
+            // border-radius: 3px;
+            // border: 1px solid color("blue-20");
+            // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
         }
     }
 }
@@ -233,6 +257,7 @@ ul.top-series-list {
 .usa-button-group {
     margin-right: 0;
     justify-content: flex-end;
+    width: 100%;
     &.buttons-center {
         justify-content: center;
     }
@@ -260,6 +285,7 @@ ul.top-series-list {
     background-color: color("gray-3");
     border-top: $border;
     border-bottom: $border;
+    padding: units(1) 0;
     ul.results-faqs {
         display: flex;
         flex-direction: column;
@@ -275,7 +301,7 @@ ul.top-series-list {
 .result {
     padding-top: units(6);
     padding-bottom: units(6);
-    border-bottom: $border;
+    //border-bottom: $border;
     &:nth-child(even) {
         background-color: color("gray-2");
     }
@@ -285,9 +311,16 @@ ul.top-series-list {
     // &:last-child {
     //     padding-bottom: ($spacer * 6);
     // }
+    .grid-container {
+        max-width: 840px;
+    }
 }
 .match {
     padding: units(2);
+    border: 1px solid color("blue-20");
+    border-radius: 3px;
+    background-color: color("blue-5");
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 .series {
     .series-detail {
@@ -297,17 +330,16 @@ ul.top-series-list {
     }
     .series-actions {
         margin-top: ($spacer * 3);
-        margin-bottom: 0;
-        @include at-media(tablet) {
-            margin-bottom: ($spacer * 3);
-        }
+        margin-bottom: ($spacer);
     }
     h2 {
-        span:not(:last-child) {
-            margin-right: ($spacer * 2);
-        }
-        display: flex;
-        justify-content: space-between;
+        font-size: 2rem;
+        line-height: 1.25;
+        // span:not(:last-child) {
+        //     margin-right: ($spacer * 2);
+        // }
+        // display: flex;
+        // justify-content: space-between;
     }
 }
 .series-name {
@@ -320,6 +352,20 @@ ul.top-series-list {
     display: flex;
     justify-content: space-between;
 }
+
+.bottom-section {
+    padding: units(6) units(2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h2 {
+        @include at-media(tablet) {
+            text-align: center;
+        }
+    }
+}
+
 .quiz {
     max-width: 44rem;
     .questions {
@@ -458,7 +504,8 @@ $progress-color: color("mint-30v");
 .footer-mockup {
     .f1 {
         background-color: #fff;
-        min-height: 68px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
     .f2 {
         background-color: #f1f1f1;
@@ -469,18 +516,17 @@ $progress-color: color("mint-30v");
         min-height: 203px;
     }
 }
-.load-more-button {
-    margin: ($spacer * 3) auto;
-    display: block;
-}
-.usa-button.icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    svg {
-        margin-right: 4px;
-        font-size: 1.2em;
+.usa-button,
+.usa-link {
+    &.icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        svg {
+            margin-right: 4px;
+            font-size: 1.2em;
+        }
     }
 }
 .quiz-start-state {

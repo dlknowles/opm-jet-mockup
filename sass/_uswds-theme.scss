@@ -15,5 +15,8 @@ in the form $setting: value,
         $theme-grid-container-max-width: "desktop-lg",
         $theme-column-gap-desktop: 6,
         $theme-column-gap-sm: 4,
+        $theme-utility-breakpoints: (
+            "tablet-lg": true
+        ),
         //$theme-font-type-sans: "public-sans"
     );

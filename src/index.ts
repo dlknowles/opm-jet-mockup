@@ -40,7 +40,7 @@ if (fileName === 'index.html') {
 
 if (fileName === 'results.html') {
 
-    const staticSeriesData = './data/jet-series.json';
+    const staticSeriesData = './data/jet-series-edited.json';
     fetchSeries(staticSeriesData);
 
     const matchRanges = [
@@ -74,7 +74,7 @@ if (fileName === 'results.html') {
                 top10.forEach((series: any, i: number) => {
                     let html = `
                     <li>
-                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.Name} Series ${series.Code}</a>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.Name}</a>
                     </li>
                     `;
                     topSeriesList.innerHTML += html;
@@ -113,36 +113,30 @@ if (fileName === 'results.html') {
                         let html = `
                         <div class="result" id="series-${i}">
                             <div class="grid-container">
-                                <div class="grid-row grid-gap">
-                                    <div class="tablet:grid-col-3 match bg-blue text-align-right">
-                                        <!--<h2 class="match-number match-color-${matchColor}">${series.Match}% Match</h2>-->
-                                        <p class="usa-prose">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
-                                    </div>
-                                    <div class="tablet:grid-col series">
-                                        <div class="series-detail">
-                                            <h2><span class="series-name">${series.Name} Series ${series.Code}</span></h2>
+                                <div class="series">
+                                    <div class="series-detail">
+                                        <h2><span class="series-name">${series.Name} Series ${series.Code}</span></h2>
 
-                                            <p class="usa-prose match bg-blue">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
+                                        <p class="usa-prose match bg-blue">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
 
-                                            <!--<h2><span class="series-name">${series.Name} Series</span><span>${series.Code}</span></h2>-->
-                                            <p class="usa-prose">${series.Description}</p>
-                                            <div class="job-titles">
-                                                <h3>Example jobs</h3>
-                                                <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
-                                                <ul class="usa-list">
-                                                ${series.JobTitles.map((job: any, i: number) => `
-                                                <li>${job}</li>
-                                                `).join('')}
-                                                </ul>
-                                            </div>
+                                        <!--<h2><span class="series-name">${series.Name} Series</span><span>${series.Code}</span></h2>-->
+                                        <p class="usa-prose">${series.Description}</p>
+                                        <div class="job-titles">
+                                            <h3 class="text-xl">Example jobs</h3>
+                                            <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
+                                            <ul class="usa-list">
+                                            ${series.JobTitles.map((job: any, i: number) => `
+                                            <li>${job}</li>
+                                            `).join('')}
+                                            </ul>
                                         </div>
-                                        <div class="series-actions">
-                                            <div class="usa-button-group">
-                                                <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
-                                                <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon text-xl"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-                                                <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
-                                            </svg> Find jobs in this series</a>
-                                            </div>
+                                    </div>
+                                    <div class="series-actions">
+                                        <div class="usa-button-group">
+                                            <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
+                                            <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon text-xl"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                            <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
+                                        </svg> Find jobs in this series</a>
                                         </div>
                                     </div>
                                 </div>

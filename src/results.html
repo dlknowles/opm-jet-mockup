@@ -33,11 +33,12 @@
                 <div>
                     <div class="grid-container top-series-container">
                         <div class="grid-row grid-gap">
-                            <div class="tablet:grid-col intro text-align-right">
-                                <h1 class="font-heading-2xl">Your results are in!</h1>
-                                <p class="usa-prose font-body-lg">Here are your top <strong>job series</strong> matches.</p>
+                            <div class="tablet-lg:grid-col intro text-align-right">
+                                <h1 class="text-5xl">Your results are in!</h1>
+                                <p class="usa-prose text-2xl">Here are your top <a href="#faq-series" class="usa-link helper-link" aria-controls="faq-series" data-open-modal>job series</a> matches.</p>
+                                <p class="usa-prose text-2xl">Select one to explore further.</p>
                             </div>
-                            <div class="tablet:grid-col">
+                            <div class="tablet-lg:grid-col">
                                 <nav>
                                     <ul class="usa-list usa-list--unstyled top-series-list" id="top-series-list"></ul>
                                 </nav>
@@ -52,14 +53,14 @@
                         <div class="tablet:grid-col">
                             <ul class="usa-list usa-list--unstyled results-faqs">
                                 <li>
-                                    <a href="#faq-series" class="usa-link" aria-controls="faq-series" data-open-modal>
+                                    <a href="#faq-series" class="usa-link helper-link icon" aria-controls="faq-series" data-open-modal>
                                         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
                                         </svg> What's a job series?
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#faq-match" class="usa-link" aria-controls="faq-match" data-open-modal>
+                                    <a href="#faq-match" class="usa-link helper-link icon" aria-controls="faq-match" data-open-modal>
                                         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
                                         </svg> How did you find my match?
@@ -72,7 +73,21 @@
             </section>
             <section>
                 <div id="data"></div>
+            </section>
+            <section class="bottom-section load-more-section">
+
+                <h2>Want to see more jobs series matches?</h2>
                 <button id="load-more" class="usa-button usa-button--outline load-more-button text-xl">Load more results</button>
+
+            </section>
+            <section class="bottom-section bg-blue restart-quiz-section">
+
+                <h2>Want to retake the quiz or change some of your responses?</h2>
+                <div class="usa-button-group buttons-center">
+                    <a href="quiz.html" class="usa-button usa-button--outline text-xl">Restart the quiz</a>
+                    <a href="quiz.html" class="usa-button usa-button--outline text-xl">Change some answers</a>
+                </div>
+
             </section>
         </main>
         <%= files.footer %>
