@@ -3,8 +3,44 @@ const pathSegments = path.split('/'); // Split the path into segments
 const fileName = pathSegments[pathSegments.length - 1]; // Get the last segment
 console.log(fileName);
 
+
+document.getElementById('menuToggle')?.addEventListener('click', function () {
+    document.querySelector('.mockup-nav')?.classList.toggle('hidden');
+});
+
+
+if (fileName === 'index.html') {
+
+    const div1 = document.getElementById("div1");
+    const div2 = document.getElementById("div2");
+    const div3 = document.getElementById("div3");
+
+    document.getElementById("showDiv1").addEventListener("click", function () {
+        hideAllDivs();
+        div1.style.display = "block";
+    });
+
+    document.getElementById("showDiv2").addEventListener("click", function () {
+        hideAllDivs();
+        div2.style.display = "block";
+    });
+
+    document.getElementById("showDiv3").addEventListener("click", function () {
+        hideAllDivs();
+        div3.style.display = "block";
+    });
+
+    function hideAllDivs() {
+        div1.style.display = "none";
+        div2.style.display = "none";
+        div3.style.display = "none";
+    }
+
+}
+
 if (fileName === 'results.html') {
-    const staticSeriesData = './data/jet-series.json';
+
+    const staticSeriesData = './data/jet-series-edited.json';
     fetchSeries(staticSeriesData);
 
     const matchRanges = [
@@ -38,7 +74,7 @@ if (fileName === 'results.html') {
                 top10.forEach((series: any, i: number) => {
                     let html = `
                     <li>
-                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.CodeName} Series</a>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.Name}</a>
                     </li>
                     `;
                     topSeriesList.innerHTML += html;
@@ -75,31 +111,33 @@ if (fileName === 'results.html') {
                         let matchCopy = matchRange ? matchRange.copy : "";
 
                         let html = `
-                        <div class="grid-row grid-gap result" id="series-${i}">
-                            <div class="tablet:grid-col-3 match bg-blue text-align-right">
-                                <!--<h2 class="match-number match-color-${matchColor}">${series.Match}% Match</h2>-->
-                                <p class="usa-prose">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
-                            </div>
-                            <div class="tablet:grid-col series">
-                                <div class="series-detail">
-                                    <h2><span class="series-name">${series.CodeName} Series</span></h2>
-                                    <p class="usa-prose">${series.Description}</p>
-                                    <div class="job-titles">
-                                        <h3>Most applied to job titles within this series</h3>
-                                        <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
-                                        <ul class="usa-list">
-                                        ${series.JobTitles.map((job: any, i: number) => `
-                                        <li>${job}</li>
-                                        `).join('')}
-                                        </ul>
+                        <div class="result" id="series-${i}">
+                            <div class="grid-container">
+                                <div class="series">
+                                    <div class="series-detail">
+                                        <h2><span class="series-name">${series.Name} Series ${series.Code}</span></h2>
+
+                                        <p class="usa-prose match bg-blue">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
+
+                                        <!--<h2><span class="series-name">${series.Name} Series</span><span>${series.Code}</span></h2>-->
+                                        <p class="usa-prose">${series.Description}</p>
+                                        <div class="job-titles">
+                                            <h3 class="text-xl">Example jobs</h3>
+                                            <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
+                                            <ul class="usa-list">
+                                            ${series.JobTitles.map((job: any, i: number) => `
+                                            <li>${job}</li>
+                                            `).join('')}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="series-actions">
-                                    <div class="usa-button-group">
-                                        <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
-                                        <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button find"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-                                        <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
-                                      </svg> Find jobs in this series</a>
+                                    <div class="series-actions">
+                                        <div class="usa-button-group">
+                                            <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
+                                            <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon text-xl"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                            <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
+                                        </svg> Find jobs in this series</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -176,6 +214,195 @@ if (fileName === 'results.html') {
 }
 
 if (fileName === 'quiz.html') {
+    const staticQuestionsData = './data/questions.json';
+    fetchQuestionsV3(staticQuestionsData);
+
+    async function fetchQuestionsV3(staticQuestionsData: any) {
+        try {
+            const res = await fetch(staticQuestionsData);
+            const data = await res.json();
+            const questionsArr = data['questions'];
+
+            const addRadioButtons = (n: number, fieldsetId: string) => {
+                const labels = ['Not Interested', 'Slightly Interested', 'Moderately Interested', 'Very Interested', 'Extremely Interested'];
+                const fieldset = document.querySelector('#' + fieldsetId);
+                for (let i = 1; i <= n; i++) {
+                    let html = `
+                    <div class="selection" tabindex="0">
+                        ${labels[i - 1]}
+                    </div>
+                    `;
+                    if (fieldset) {
+                        fieldset.innerHTML += html;
+                    }
+                }
+            };
+
+            const progressBar = document.querySelector('#progress-bar') as HTMLElement;
+            const questionsContainer = document.querySelector('#quiz-container') as HTMLElement;
+
+            if (questionsContainer) {
+
+                let startScreen = `
+                    <div class="question question-intro text-xl" data-question="0" tabindex="0">
+                        <div class="question-content submit-quiz">
+                            <div>
+                                <h1 class="text-2xl">Intro</h1>
+                                <a class="usa-button selection text-xl" tabindex="0">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                questionsContainer.innerHTML += startScreen;
+
+                questionsArr.forEach((question: any, i: number) => {
+                    let fieldsetId = `rating${i}`;
+                    let html = `
+                        <div class="question text-xl" data-question="${i + 1}" tabindex="0">
+                            <div class="question-content">
+                            
+                                    <h2 class="text-xl"><div class="question-number"><span class="sr-only">Question</span>${i + 1}</div><div class="question-text"><span class="question-number"><span class="sr-only">Question</span>${i + 1}. </span>How interested are you in doing these activities at work?</div></h2>
+                                    <p>${question.question}</p>
+                                
+                                    <div class="selections" id="${fieldsetId}"></div>
+                                
+                            </div>
+                        </div>
+                        `;
+                    questionsContainer.innerHTML += html;
+                    addRadioButtons(5, fieldsetId);
+                });
+
+                let completeScreen = `
+                    <div class="question question-submit text-xl" data-question="26" tabindex="0">
+                        <div class="question-content submit-quiz">
+                            <div>
+                                <h2 class="text-2xl">Great! You've answered all the questions.</h2>
+                                <a href="results.html" class="usa-button text-xl" id="submit">See your results</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                questionsContainer.innerHTML += completeScreen;
+
+                let currentQuestion = 0;
+
+                const handleSelection = (target: HTMLElement) => {
+                    target.closest('.selections')?.querySelectorAll('.selection').forEach((selection) => {
+                        selection.classList.remove('selected');
+                    });
+                    target.classList.add('selected');
+
+                    const currentElement = target.closest('.question') as HTMLElement;
+                    const currentQuestionNumber = Number(currentElement.dataset.question);
+
+                    if (currentQuestionNumber === currentQuestion) {
+                        currentQuestion++;
+                        navigateToQuestion(currentQuestion);
+                        updateProgress();
+                    }
+                };
+
+                const navigateToQuestion = (questionNumber: number) => {
+                    const targetElement = questionsContainer.querySelector(`.question[data-question="${questionNumber}"]`) as HTMLElement;
+                    console.log(targetElement);
+                    if (targetElement) {
+                        targetElement.style.display = 'flex';
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            setTimeout(() => {
+                                targetElement.focus();
+                            }, 500);
+                            if (questionNumber === 1) {
+                                setTimeout(() => {
+                                    (document.querySelector('.question[data-question="0"]') as HTMLElement).style.display = 'none';
+                                }, 300);
+                            }
+                        }, 300);
+                    }
+                };
+
+                const updateProgress = () => {
+                    // Update progress bar
+                    const progressPercentage = ((currentQuestion - 1) / questionsArr.length) * 100;
+                    progressBar.style.width = progressPercentage + '%';
+
+                    // Update progress text
+                    const progressTextElement = document.querySelector('#progress-text');
+                    if (progressTextElement) {
+                        progressTextElement.innerHTML = `<span class="pt-complete">${Math.floor(progressPercentage)}% Complete</span><span class="pt-answered">${currentQuestion - 1}/25 Questions Answered</span>`;
+                        // progressTextElement.textContent = `${Math.floor(progressPercentage)}% Complete | ${currentQuestion - 1}/25 Answered`;
+                    }
+                };
+
+                questionsContainer.addEventListener('click', function (event) {
+                    const target = event.target as HTMLElement;
+                    if (target.classList.contains('selection')) {
+                        event.preventDefault();
+                        handleSelection(target);
+                    }
+                });
+
+                questionsContainer.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        const target = event.target as HTMLElement;
+                        if (target.classList.contains('selection')) {
+                            event.preventDefault();
+                            handleSelection(target);
+                        }
+                    }
+                });
+
+                // Auto answer first 24 questions
+                const autoAnswerButton = document.querySelector('#autoAnswer');
+                if (autoAnswerButton) {
+                    autoAnswerButton.addEventListener('click', function () {
+                        for (let i = 1; i <= 24; i++) {
+                            const questionElement = questionsContainer.querySelector(`.question[data-question="${i}"]`) as HTMLElement;
+                            if (questionElement) {
+                                const selections = questionElement.querySelectorAll('.selection');
+                                const targetSelection = selections[0]; // Select the first option for simplicity
+                                if (targetSelection) {
+                                    handleSelection(targetSelection as HTMLElement);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                const submitButton = document.querySelector('#submit') as HTMLLinkElement;
+                const loadingContainer = document.querySelector('.loading-container') as HTMLElement;
+                const animation = document.querySelector('.loading-container > div') as HTMLElement;
+
+                submitButton.addEventListener('click', function (e) {
+                    e.preventDefault(); // Prevent the default link action
+                    const destination = this.href; // Save the href value
+                    loadingContainer.style.display = 'flex';  // use 'flex' to center the beaker and bubbles
+                    setTimeout(() => {
+                        animation.style.opacity = '0';
+                    }, 3500);
+
+                    // After 4 seconds, start the fade-out effect
+                    setTimeout(() => {
+                        loadingContainer.style.opacity = '0';
+                        window.location.href = destination;
+                    }, 4000);
+                });
+
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+}
+
+// OLD QUIZ
+
+if (fileName === 'quiz-old.html') {
     const staticQuestionsData = './data/questions.json';
     fetchQuestions(staticQuestionsData);
 
@@ -415,32 +642,4 @@ if (fileName === 'quiz.html') {
             console.error('Error:', error);
         }
     }
-}
-if (fileName === 'index.html') {
-
-    const div1 = document.getElementById("div1");
-    const div2 = document.getElementById("div2");
-    const div3 = document.getElementById("div3");
-
-    document.getElementById("showDiv1").addEventListener("click", function () {
-        hideAllDivs();
-        div1.style.display = "block";
-    });
-
-    document.getElementById("showDiv2").addEventListener("click", function () {
-        hideAllDivs();
-        div2.style.display = "block";
-    });
-
-    document.getElementById("showDiv3").addEventListener("click", function () {
-        hideAllDivs();
-        div3.style.display = "block";
-    });
-
-    function hideAllDivs() {
-        div1.style.display = "none";
-        div2.style.display = "none";
-        div3.style.display = "none";
-    }
-
 }

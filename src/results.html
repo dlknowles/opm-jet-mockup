@@ -16,24 +16,29 @@
 </head>
 
 <body>
-    <nav>
-        <ul class="usa-list usa-list--unstyled mockup-nav">
+    <div class="mockup-menu">
+        <button class="usa-button usa-button--base" id="menuToggle">Menu</button>
+        <ul class="usa-list usa-list--unstyled mockup-nav hidden">
             <li><a class="usa-link" href="index.html">Home</a></li>
             <li><a class="usa-link" href="quiz.html">Quiz</a></li>
             <li><a class="usa-link" href="results.html">Results</a></li>
+            <hr>
+            <li><a class="usa-link" href="quiz-old.html">Quiz (Old)</a></li>
         </ul>
-    </nav>
+    </div>
+
     <%= files.header %>
         <main id="main">
-            <section class="vh-80 bg-grad">
+            <section class="vh-80 bg-grad top-results">
                 <div>
-                    <div class="grid-container top-series-container result">
+                    <div class="grid-container top-series-container">
                         <div class="grid-row grid-gap">
-                            <div class="tablet:grid-col intro text-align-right">
-                                <h1>Your results are in!</h1>
-                                <p>Here are your top<br> <strong>job series</strong> matches.</p>
+                            <div class="tablet-lg:grid-col intro text-align-right">
+                                <h1 class="text-5xl">Your results are in!</h1>
+                                <p class="usa-prose text-2xl">Here are your top <a href="#faq-series" class="usa-link helper-link" aria-controls="faq-series" data-open-modal>job series</a> matches.</p>
+                                <p class="usa-prose text-2xl">Select one to explore further.</p>
                             </div>
-                            <div class="tablet:grid-col">
+                            <div class="tablet-lg:grid-col">
                                 <nav>
                                     <ul class="usa-list usa-list--unstyled top-series-list" id="top-series-list"></ul>
                                 </nav>
@@ -47,18 +52,18 @@
                     <div class="grid-row grid-gap">
                         <div class="tablet:grid-col">
                             <ul class="usa-list usa-list--unstyled results-faqs">
-                                <!-- <li>
-                                    <a href="#" class="usa-link">
-                                        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-                                            <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
-                                        </svg> How did you find my match?
-                                    </a>
-                                </li> -->
                                 <li>
-                                    <a href="#faq" class="usa-link" aria-controls="faq" data-open-modal>
+                                    <a href="#faq-series" class="usa-link helper-link icon" aria-controls="faq-series" data-open-modal>
                                         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
                                         </svg> What's a job series?
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#faq-match" class="usa-link helper-link icon" aria-controls="faq-match" data-open-modal>
+                                        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                            <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
+                                        </svg> How did you find my match?
                                     </a>
                                 </li>
                             </ul>
@@ -67,44 +72,52 @@
                 </div>
             </section>
             <section>
-                <div class="grid-container results-container">
-                    <div id="data"></div>
-                    <button id="load-more" class="usa-button usa-button--outline load-more-button">Load more results</button>
+                <div id="data"></div>
+            </section>
+            <section class="bottom-section load-more-section">
+
+                <h2>Want to see more jobs series matches?</h2>
+                <button id="load-more" class="usa-button usa-button--outline load-more-button text-xl">Load more results</button>
+
+            </section>
+            <section class="bottom-section bg-blue restart-quiz-section">
+
+                <h2>Want to retake the quiz or change some of your responses?</h2>
+                <div class="usa-button-group buttons-center">
+                    <a href="quiz.html" class="usa-button usa-button--outline text-xl">Restart the quiz</a>
+                    <a href="quiz.html" class="usa-button usa-button--outline text-xl">Change some answers</a>
                 </div>
-                <!-- <div class="series-nav-buttons bg-gray">
-                    <div class="buttons">
-                        <a href="#main" type="button" class="usa-button usa-button--outline w-auto">Top</a>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="usa-button usa-button--outline w-auto" id="prev">Prev</button>
-                        <button type="button" class="usa-button usa-button--outline w-auto" id="next">Next</button>
-                    </div>
-                </div> -->
+
             </section>
         </main>
         <%= files.footer %>
-            <div class="usa-modal" id="faq" aria-labelledby="modal-1-heading" aria-describedby="modal-1-description">
-                <div class="usa-modal__content">
+            <div class="usa-modal" id="faq-series" aria-labelledby="modal-1-heading" aria-describedby="modal-1-description">
+                <div class="usa-modal__content usa-prose">
                     <div class="usa-modal__main">
                         <h2 class="usa-modal__heading" id="modal-1-heading">
                             What's a job series?
                         </h2>
-                        <div class="usa-prose">
-                            <p id="modal-1-description">
-                                The federal government categorizes jobs into groups or families of jobs or occupations. These groups are called a series. The series is a four-digit numbering system for organizing similar jobs. Related jobs will have series numbers that are closer together.
-                            </p>
-                            <p>
-                                For example, medical, dental and public health jobs will have a series between 0600–0699, where nurse jobs are in the 0610 series and nursing assistant is 0621.
-                            </p>
-                        </div>
+
+                        <p id="modal-1-description">
+                            The federal government categorizes jobs into groups or families of jobs or occupations. These groups are called a series. The series is a four-digit numbering system for organizing similar jobs. Related jobs will have series numbers that are closer together.
+                        </p>
+                        <p>
+                            For example, medical, dental and public health jobs will have a series between 0600–0699, where nurse jobs are in the 0610 series and nursing assistant is 0621.
+                        </p>
+                        <h3>Which job series are included here?</h3>
+                        <p>
+                            The Job Exploration Tool can match you with <strong>all job series</strong> in the federal government.
+                        </p>
                         <div class="usa-modal__footer">
-                            <!-- <ul class="usa-button-group">
+                            <ul class="usa-button-group">
                                 <li class="usa-button-group__item">
                                     <button type="button" class="usa-button usa-button--unstyled padding-105 text-center" data-close-modal>
-                                        Go back
+                                        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                            <use xlink:href="assets/uswds/img/sprite.svg#help"></use>
+                                        </svg> Learn more from our Help Center
                                     </button>
                                 </li>
-                            </ul> -->
+                            </ul>
                         </div>
                     </div>
                     <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
@@ -114,6 +127,45 @@
                     </button>
                 </div>
             </div>
+
+            <div class="usa-modal" id="faq-match" aria-labelledby="modal-2-heading" aria-describedby="modal-2-description">
+                <div class="usa-modal__content usa-prose">
+                    <div class="usa-modal__main">
+                        <h2 class="usa-modal__heading" id="modal-2-heading">
+                            How did you find my match?
+                        </h2>
+
+                        <p id="modal-2-description">
+                            The Job Exploration Tool uses a unique approach to finding job matches for you <strong>based on your interests</strong>. Unlike most job match assessment tools which match you based on skills, competencies, eligibilities, education level, or background, the JET aims to help you discover many different jobs which align purely with your interests.
+                        </p>
+                        <h3>Why interest-based matching?</h3>
+                        <p>
+                            Experts believe that interest is the cornerstone of a fulfilling career. When you are genuinely interested in your job, it not only leads to greater job satisfaction but also to long-term career success.
+                        </p>
+                        <h3>How does the JET work?</h3>
+                        <p>
+                            It's magic.
+                        </p>
+                        <div class="usa-modal__footer">
+                            <ul class="usa-button-group">
+                                <li class="usa-button-group__item">
+                                    <button type="button" class="usa-button usa-button--unstyled padding-105 text-center" data-close-modal>
+                                        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                            <use xlink:href="assets/uswds/img/sprite.svg#help"></use>
+                                        </svg> Learn more from our Help Center
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+                        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                            <use xlink:href="assets/uswds/img/sprite.svg#close"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
 </body>
 
 </html>
