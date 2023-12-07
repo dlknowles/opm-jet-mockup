@@ -40,6 +40,25 @@ if (fileName === 'index.html') {
 
 if (fileName === 'results.html') {
 
+    const urlField = document.querySelector('#urlField') as HTMLInputElement;
+    const currentURL = window.location.href;
+    console.log(currentURL);
+
+    if (urlField && currentURL) {
+        urlField.value = currentURL;
+    }
+
+    const copyButton = document.querySelector('#copyButton') as HTMLButtonElement;
+
+    if (copyButton && currentURL) {
+        copyButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            navigator.clipboard.writeText(currentURL)
+                .then(() => alert('URL copied to clipboard!'))
+                .catch(err => console.error('Error copying text: ', err));
+        });
+    }
+
     const staticSeriesData = './data/jet-series-edited.json';
     fetchSeries(staticSeriesData);
 
@@ -117,13 +136,13 @@ if (fileName === 'results.html') {
                                     <div class="series-detail">
                                         <h2><span class="series-name">${series.Name} Series ${series.Code}</span></h2>
 
-                                        <p class="usa-prose match bg-blue">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
+                                        <p class="match bg-blue">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
 
                                         <!--<h2><span class="series-name">${series.Name} Series</span><span>${series.Code}</span></h2>-->
-                                        <p class="usa-prose">${series.Description}</p>
+                                        <p>${series.Description}</p>
                                         <div class="job-titles">
                                             <h3 class="text-xl">Example jobs</h3>
-                                            <!--<p class="usa-prose">Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
+                                            <!--<p>Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
                                             <ul class="usa-list">
                                             ${series.JobTitles.map((job: any, i: number) => `
                                             <li>${job}</li>
@@ -134,7 +153,7 @@ if (fileName === 'results.html') {
                                     <div class="series-actions">
                                         <div class="usa-button-group">
                                             <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
-                                            <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon text-xl"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                                            <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
                                         </svg> Find jobs in this series</a>
                                         </div>
@@ -439,8 +458,8 @@ if (fileName === 'quiz-old.html') {
                     <div class="question">
                         <div>
                             <h2>Question #${i + 1}</h2>
-                            <p class="usa-prose"><strong>How interested are you in doing these activities at work?</strong></p>
-                            <p class="usa-prose">${question.question}</p>
+                            <p><strong>How interested are you in doing these activities at work?</strong></p>
+                            <p>${question.question}</p>
                         </div>
                         <fieldset class="usa-fieldset">
                             <legend class="usa-legend">Select one rating</legend>

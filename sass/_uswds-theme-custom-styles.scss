@@ -21,10 +21,10 @@ i.e.
 */
 
 // Image path dev
-//$assetPath: "/assets/uswds/img/usa-icons";
+$assetPath: "/assets/uswds/img/usa-icons";
 
 // Image path prod
-$assetPath: "../img/usa-icons";
+//$assetPath: "../img/usa-icons";
 
 @use "uswds-core" as *;
 
@@ -63,6 +63,10 @@ h4,
 h5,
 h6 {
     overflow-wrap: break-word;
+}
+
+p {
+    margin-bottom: 1rem;
 }
 
 // Define a color map
@@ -118,20 +122,13 @@ p {
 }
 .text-xl {
     font-size: 1.25rem;
-    &:not(.usa-button) {
-        line-height: 1.75rem;
-    }
 }
 .text-2xl {
     font-size: 1.5rem;
-    line-height: 2rem;
 }
 .text-5xl {
-    font-size: 2rem;
+    font-size: 2.5rem;
     line-height: 1;
-    @include at-media(tablet) {
-        font-size: 3rem;
-    }
 }
 ul.icon-list {
     margin: 3.5rem 0;
@@ -240,7 +237,7 @@ ul.top-series-list {
         a {
             display: inline-block;
             font-size: 1.25rem;
-            line-height: 1.25;
+            line-height: 1;
             text-decoration: none;
             font-weight: bold;
             // background: color("blue-5");
@@ -250,6 +247,16 @@ ul.top-series-list {
             // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
         }
     }
+}
+.results-intro {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+}
+.input-readonly {
+    background-color: color("gray-5");
+    border-radius: 4px;
 }
 .grid-container.intro {
     max-width: 600px;
@@ -277,6 +284,9 @@ ul.top-series-list {
 .top-results {
     padding-top: units(6);
     padding-bottom: units(6);
+    // .grid-container {
+    //     max-width: 840px;
+    // }
 }
 .results-faqs-section {
     //position: sticky;
@@ -364,6 +374,10 @@ ul.top-series-list {
             text-align: center;
         }
     }
+    &.feedback-section {
+        background-color: #112e51;
+        color: #fff;
+    }
 }
 
 .quiz {
@@ -384,10 +398,6 @@ ul.top-series-list {
             }
         }
     }
-}
-.usa-legend {
-    visibility: hidden;
-    display: none;
 }
 .radio-group {
     display: flex;
@@ -731,4 +741,45 @@ $progress-color: color("mint-30v");
         stroke: color("primary");
         stroke-width: 1px;
     }
+}
+.usa-modal {
+    h2 {
+        margin-top: 0;
+    }
+    .fba-modal-dialog {
+        margin: 0;
+        max-width: 100%;
+        border: none;
+        overflow: visible;
+        .touchpoints-form-wrapper:focus {
+            outline: none;
+        }
+        .wrapper {
+            padding: 0;
+        }
+        .usa-fieldset {
+            margin-top: 2rem !important;
+        }
+        .usa-legend,
+        .usa-label {
+            font-size: 1.25rem;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .usa-input__label {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+    }
+}
+
+#feedback-short-button {
+    position: fixed;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: auto !important;
+    background: #ffffff;
 }

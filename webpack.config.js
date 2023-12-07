@@ -1,11 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const fs = require('fs');
-
-const files = {
-    header: fs.readFileSync('./src/parts/header.html', { encoding: 'utf-8' }),
-    footer: fs.readFileSync('./src/parts/footer.html', { encoding: 'utf-8' })
-};
 
 module.exports = {
     mode: 'development',
@@ -20,40 +14,36 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader',
+                options: {
+                    knownHelpersOnly: false,
+                    partialDirs: [path.join(__dirname, 'src', 'parts')]
+                }
             }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '.hbs']
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: './index.html',
-            templateParameters: {
-                files
-            }
+            template: './src/index.hbs',
+            filename: './index.html'
         }),
         new HtmlWebpackPlugin({
-            template: './src/quiz.html',
-            filename: './quiz.html',
-            templateParameters: {
-                files
-            }
+            template: './src/quiz.hbs',
+            filename: './quiz.html'
         }),
         new HtmlWebpackPlugin({
-            template: './src/quiz-old.html',
-            filename: './quiz-old.html',
-            templateParameters: {
-                files
-            }
+            template: './src/quiz-old.hbs',
+            filename: './quiz-old.html'
         }),
         new HtmlWebpackPlugin({
-            template: './src/results.html',
-            filename: './results.html',
-            templateParameters: {
-                files
-            }
+            template: './src/results.hbs',
+            filename: './results.html'
         })
     ],
     output: {
@@ -65,6 +55,7 @@ module.exports = {
             directory: path.join(__dirname, 'dist')
         },
         compress: true,
-        port: 9000
+        port: 9000,
+        watchFiles: ['src/**/*.hbs']
     }
 };
