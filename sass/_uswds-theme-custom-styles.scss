@@ -21,10 +21,10 @@ i.e.
 */
 
 // Image path prod
-$assetPath: "/assets/uswds/img/usa-icons";
+//$assetPath: "/assets/uswds/img/usa-icons";
 
 // Image path dev
-//$assetPath: "../img/usa-icons";
+$assetPath: "../img/usa-icons";
 
 @use "uswds-core" as *;
 
