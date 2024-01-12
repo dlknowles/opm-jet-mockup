@@ -20,10 +20,10 @@ i.e.
 ----------------------------------------
 */
 
-// Image path dev
+// Image path prod
 $assetPath: "/assets/uswds/img/usa-icons";
 
-// Image path prod
+// Image path dev
 //$assetPath: "../img/usa-icons";
 
 @use "uswds-core" as *;
@@ -33,6 +33,9 @@ $assetPath: "/assets/uswds/img/usa-icons";
 *::before,
 *::after {
     box-sizing: border-box;
+}
+* {
+    margin: 0;
 }
 
 body {
@@ -63,6 +66,7 @@ h4,
 h5,
 h6 {
     overflow-wrap: break-word;
+    margin-bottom: 1rem;
 }
 
 p {
@@ -169,8 +173,8 @@ ul.icon-list {
     background-color: color("blue-5");
 }
 .bg-grad {
-    background: color("yellow-5");
-    background: radial-gradient(circle, color("white") 50%, color("yellow-5") 100%);
+    background: #faf3d1;
+    background: radial-gradient(circle, #faf9f3 50%, #faf3d1 100%);
 }
 .w-auto {
     width: auto !important;
@@ -282,8 +286,7 @@ ul.top-series-list {
     }
 }
 .top-results {
-    padding-top: units(6);
-    padding-bottom: units(6);
+    padding: 5rem 0;
     // .grid-container {
     //     max-width: 840px;
     // }
@@ -309,8 +312,7 @@ ul.top-series-list {
     }
 }
 .result {
-    padding-top: units(6);
-    padding-bottom: units(6);
+    padding: 5rem 0;
     //border-bottom: $border;
     &:nth-child(even) {
         background-color: color("gray-2");
@@ -352,9 +354,6 @@ ul.top-series-list {
         // justify-content: space-between;
     }
 }
-.series-name {
-    text-transform: capitalize;
-}
 .series-nav-buttons {
     position: sticky;
     bottom: 0;
@@ -364,19 +363,12 @@ ul.top-series-list {
 }
 
 .bottom-section {
-    padding: units(6) units(2);
+    padding: 6rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     h2 {
-        @include at-media(tablet) {
-            text-align: center;
-        }
-    }
-    &.feedback-section {
-        background-color: #112e51;
-        color: #fff;
     }
 }
 
@@ -733,6 +725,7 @@ $progress-color: color("mint-30v");
     height: 200px;
     width: 200px;
     opacity: 1;
+    margin: 0 auto;
     svg path {
         stroke: color("primary");
         stroke-width: 1px;
@@ -776,10 +769,12 @@ $progress-color: color("mint-30v");
     }
 }
 
-#feedback-short-button {
+#feedback-button {
     position: fixed;
     bottom: 0.5rem;
     right: 0.5rem;
     width: auto !important;
-    background: #ffffff;
+    &.usa-button--outline {
+        background-color: #ffffff;
+    }
 }

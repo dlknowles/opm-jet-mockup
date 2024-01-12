@@ -1,45 +1,40 @@
-const path = window.location.pathname; // Get the path
-const pathSegments = path.split('/'); // Split the path into segments
-const fileName = pathSegments[pathSegments.length - 1]; // Get the last segment
+const path = window.location.pathname;
+const pathSegments = path.split('/');
+const fileName = pathSegments[pathSegments.length - 1];
 console.log(fileName);
-
 
 document.getElementById('menuToggle')?.addEventListener('click', function () {
     document.querySelector('.mockup-nav')?.classList.toggle('hidden');
 });
 
-
 if (fileName === 'index.html') {
+    const div1 = document.getElementById('div1');
+    const div2 = document.getElementById('div2');
+    const div3 = document.getElementById('div3');
 
-    const div1 = document.getElementById("div1");
-    const div2 = document.getElementById("div2");
-    const div3 = document.getElementById("div3");
-
-    document.getElementById("showDiv1").addEventListener("click", function () {
+    document.getElementById('showDiv1').addEventListener('click', function () {
         hideAllDivs();
-        div1.style.display = "block";
+        div1.style.display = 'block';
     });
 
-    document.getElementById("showDiv2").addEventListener("click", function () {
+    document.getElementById('showDiv2').addEventListener('click', function () {
         hideAllDivs();
-        div2.style.display = "block";
+        div2.style.display = 'block';
     });
 
-    document.getElementById("showDiv3").addEventListener("click", function () {
+    document.getElementById('showDiv3').addEventListener('click', function () {
         hideAllDivs();
-        div3.style.display = "block";
+        div3.style.display = 'block';
     });
 
     function hideAllDivs() {
-        div1.style.display = "none";
-        div2.style.display = "none";
-        div3.style.display = "none";
+        div1.style.display = 'none';
+        div2.style.display = 'none';
+        div3.style.display = 'none';
     }
-
 }
 
 if (fileName === 'results.html') {
-
     const urlField = document.querySelector('#urlField') as HTMLInputElement;
     const currentURL = window.location.href;
     console.log(currentURL);
@@ -53,20 +48,21 @@ if (fileName === 'results.html') {
     if (copyButton && currentURL) {
         copyButton.addEventListener('click', (event) => {
             event.preventDefault();
-            navigator.clipboard.writeText(currentURL)
+            navigator.clipboard
+                .writeText(currentURL)
                 .then(() => alert('URL copied to clipboard!'))
-                .catch(err => console.error('Error copying text: ', err));
+                .catch((err) => console.error('Error copying text: ', err));
         });
     }
 
-    const staticSeriesData = './data/jet-series-edited.json';
+    const staticSeriesData = './data/sample-series.json';
     fetchSeries(staticSeriesData);
 
     const matchRanges = [
-        { min: 0, max: 79, color: "red", copy: "weak" },
-        { min: 80, max: 89, color: "orange", copy: "moderate" },
-        { min: 90, max: 95, color: "lt-green", copy: "strong" },
-        { min: 96, max: 100, color: "green", copy: "very strong" }
+        { min: 0, max: 79, color: 'red', copy: 'weak' },
+        { min: 80, max: 89, color: 'orange', copy: 'moderate' },
+        { min: 90, max: 95, color: 'lt-green', copy: 'strong' },
+        { min: 96, max: 100, color: 'green', copy: 'very strong' }
     ];
 
     async function fetchSeries(staticSeriesData: any) {
@@ -93,7 +89,7 @@ if (fileName === 'results.html') {
                 top10.forEach((series: any, i: number) => {
                     let html = `
                     <li>
-                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.Name}</a>
+                        <a href="#series-${i}" class="usa-link series-name" data-series-index="${i}">${series.CodeName}</a>
                     </li>
                     `;
                     topSeriesList.innerHTML += html;
@@ -124,38 +120,31 @@ if (fileName === 'results.html') {
                         // Get the match number for the series
                         let match = series.Match;
                         // Find the color range that match falls into
-                        let matchRange = matchRanges.find(range => match >= range.min && match <= range.max);
+                        let matchRange = matchRanges.find((range) => match >= range.min && match <= range.max);
                         // Get the color class from the color range, or a default class if no range is found
-                        let matchColor = matchRange ? matchRange.color : "";
-                        let matchCopy = matchRange ? matchRange.copy : "";
+                        let matchColor = matchRange ? matchRange.color : '';
+                        let matchCopy = matchRange ? matchRange.copy : '';
 
                         let html = `
                         <div class="result" id="series-${i}">
                             <div class="grid-container">
                                 <div class="series">
                                     <div class="series-detail">
-                                        <h2><span class="series-name">${series.Name} Series ${series.Code}</span></h2>
-
+                                        <h2><span class="series-name">${series.CodeName}</span></h2>
                                         <p class="match bg-blue">Based on your answers, your interests are a <strong class="match-color-${matchColor}">${matchCopy} match</strong> with this job series.</p>
-
-                                        <!--<h2><span class="series-name">${series.Name} Series</span><span>${series.Code}</span></h2>-->
                                         <p>${series.Description}</p>
                                         <div class="job-titles">
                                             <h3 class="text-xl">Example jobs</h3>
-                                            <!--<p>Here's a list of the <em>most applied to</em> job titles in the <span class="series-name">${series.Name}</span>:</p>-->
                                             <ul class="usa-list">
-                                            ${series.JobTitles.map((job: any, i: number) => `
-                                            <li>${job}</li>
-                                            `).join('')}
+                                            ${series.JobTitles.map((job: any, i: number) => `<li>${job}</li>`).join('')}
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="series-actions">
                                         <div class="usa-button-group">
-                                            <!--<a href="#" class="usa-button usa-button--outline">Explore related series</a>-->
                                             <a href="https://www.usajobs.gov/Search/Results?j=${series.Code}" class="usa-button icon"><svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                             <use xlink:href="assets/uswds/img/sprite.svg#search"></use>
-                                        </svg> Find jobs in this series</a>
+                                        </svg> Search for jobs in this series</a>
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +152,7 @@ if (fileName === 'results.html') {
                         </div>
                         `;
                         seriesContainer.innerHTML += html;
-                    };
+                    }
                     currentIndex += 10;
                 };
 
@@ -179,7 +168,6 @@ if (fileName === 'results.html') {
                         }
                     });
                 }
-
             }
 
             // Function to find the index of the element in the viewport
@@ -206,7 +194,7 @@ if (fileName === 'results.html') {
                     if (currentIndex > 0) {
                         currentIndex--;
                         // Scroll to the new current element
-                        results[currentIndex].scrollIntoView({ behavior: "smooth" });
+                        results[currentIndex].scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             }
@@ -221,11 +209,10 @@ if (fileName === 'results.html') {
                     if (currentIndex < results.length - 1) {
                         currentIndex++;
                         // Scroll to the new current element
-                        results[currentIndex].scrollIntoView({ behavior: "smooth" });
+                        results[currentIndex].scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             }
-
         } catch (error) {
             console.error('Error:', error);
         }
@@ -233,7 +220,7 @@ if (fileName === 'results.html') {
 }
 
 if (fileName === 'quiz.html') {
-    const staticQuestionsData = './data/questions.json';
+    const staticQuestionsData = './data/questions-v3.json';
     fetchQuestionsV3(staticQuestionsData);
 
     async function fetchQuestionsV3(staticQuestionsData: any) {
@@ -241,9 +228,10 @@ if (fileName === 'quiz.html') {
             const res = await fetch(staticQuestionsData);
             const data = await res.json();
             const questionsArr = data['questions'];
+            const totalQuestions = questionsArr.length;
 
             const addRadioButtons = (n: number, fieldsetId: string) => {
-                const labels = ['Not Interested', 'Slightly Interested', 'Moderately Interested', 'Very Interested', 'Extremely Interested'];
+                const labels = ['Not interested', 'Slightly interested', 'Moderately interested', 'Very interested', 'Extremely interested'];
                 const fieldset = document.querySelector('#' + fieldsetId);
                 for (let i = 1; i <= n; i++) {
                     let html = `
@@ -261,14 +249,13 @@ if (fileName === 'quiz.html') {
             const questionsContainer = document.querySelector('#quiz-container') as HTMLElement;
 
             if (questionsContainer) {
-
                 let startScreen = `
                     <div class="question question-intro text-xl" data-question="0" tabindex="0">
                         <div class="question-content submit-quiz">
-                            <div>
-                                <h1 class="text-2xl">Intro</h1>
-                                <a class="usa-button selection text-xl" tabindex="0">Continue</a>
-                            </div>
+                            <h2 class="text-xl">Welcome to the job exploration tool!</h2>
+                            <p>This tool will help you understand what jobs within the federal government might fit your interests. Read each question and determine how much you think you would like or dislike doing each activity.</p>
+                            <p>Don't think about whether you have the skills to do the activity or how much money you would make. Our goal is to allow you to explore careers in the federal government you might like or find rewarding.</p>
+                            <a class="usa-button selection text-xl" tabindex="0">Continue</a>
                         </div>
                     </div>
                 `;
@@ -280,12 +267,11 @@ if (fileName === 'quiz.html') {
                     let html = `
                         <div class="question text-xl" data-question="${i + 1}" tabindex="0">
                             <div class="question-content">
-                            
-                                    <h2 class="text-xl"><div class="question-number"><span class="sr-only">Question</span>${i + 1}</div><div class="question-text"><span class="question-number"><span class="sr-only">Question</span>${i + 1}. </span>How interested are you in doing these activities at work?</div></h2>
-                                    <p>${question.question}</p>
-                                
-                                    <div class="selections" id="${fieldsetId}"></div>
-                                
+                                <h2 class="text-xl">
+                                    <div class="question-number"><span class="sr-only">Question</span>${i + 1}</div><div class="question-text"><span class="question-number"><span class="sr-only">Question</span>${i + 1}. </span>How interested are you in doing these activities at work?</div>
+                                </h2>
+                                <p>${question.question}</p>
+                                <div class="selections" id="${fieldsetId}"></div>
                             </div>
                         </div>
                         `;
@@ -294,7 +280,7 @@ if (fileName === 'quiz.html') {
                 });
 
                 let completeScreen = `
-                    <div class="question question-submit text-xl" data-question="26" tabindex="0">
+                    <div class="question question-submit text-xl" data-question="${totalQuestions + 1}" tabindex="0">
                         <div class="question-content submit-quiz">
                             <div>
                                 <h2 class="text-2xl">Great! You've answered all the questions.</h2>
@@ -309,9 +295,12 @@ if (fileName === 'quiz.html') {
                 let currentQuestion = 0;
 
                 const handleSelection = (target: HTMLElement) => {
-                    target.closest('.selections')?.querySelectorAll('.selection').forEach((selection) => {
-                        selection.classList.remove('selected');
-                    });
+                    target
+                        .closest('.selections')
+                        ?.querySelectorAll('.selection')
+                        .forEach((selection) => {
+                            selection.classList.remove('selected');
+                        });
                     target.classList.add('selected');
 
                     const currentElement = target.closest('.question') as HTMLElement;
@@ -351,7 +340,9 @@ if (fileName === 'quiz.html') {
                     // Update progress text
                     const progressTextElement = document.querySelector('#progress-text');
                     if (progressTextElement) {
-                        progressTextElement.innerHTML = `<span class="pt-complete">${Math.floor(progressPercentage)}% Complete</span><span class="pt-answered">${currentQuestion - 1}/25 Questions Answered</span>`;
+                        progressTextElement.innerHTML = `<span class="pt-complete">${Math.floor(
+                            progressPercentage
+                        )}% Complete</span><span class="pt-answered">${currentQuestion - 1}/${totalQuestions} questions answered</span>`;
                         // progressTextElement.textContent = `${Math.floor(progressPercentage)}% Complete | ${currentQuestion - 1}/25 Answered`;
                     }
                 };
@@ -374,11 +365,11 @@ if (fileName === 'quiz.html') {
                     }
                 });
 
-                // Auto answer first 24 questions
+                // Auto answer questions
                 const autoAnswerButton = document.querySelector('#autoAnswer');
                 if (autoAnswerButton) {
                     autoAnswerButton.addEventListener('click', function () {
-                        for (let i = 1; i <= 24; i++) {
+                        for (let i = 0; i <= (totalQuestions); i++) {
                             const questionElement = questionsContainer.querySelector(`.question[data-question="${i}"]`) as HTMLElement;
                             if (questionElement) {
                                 const selections = questionElement.querySelectorAll('.selection');
@@ -396,27 +387,23 @@ if (fileName === 'quiz.html') {
                 const animation = document.querySelector('.loading-container > div') as HTMLElement;
 
                 submitButton.addEventListener('click', function (e) {
-                    e.preventDefault(); // Prevent the default link action
-                    const destination = this.href; // Save the href value
-                    loadingContainer.style.display = 'flex';  // use 'flex' to center the beaker and bubbles
+                    e.preventDefault();
+                    const destination = this.href;
+                    loadingContainer.style.display = 'flex';
                     setTimeout(() => {
                         animation.style.opacity = '0';
                     }, 3500);
-
                     // After 4 seconds, start the fade-out effect
                     setTimeout(() => {
                         loadingContainer.style.opacity = '0';
                         window.location.href = destination;
                     }, 4000);
                 });
-
             }
-
         } catch (error) {
             console.error('Error:', error);
         }
     }
-
 }
 
 // OLD QUIZ
@@ -436,8 +423,8 @@ if (fileName === 'quiz-old.html') {
                 const labels = ['Not Interested', 'Slightly Interested', 'Moderately Interested', 'Very Interested', 'Extremely Interested'];
                 const fieldset = document.querySelector('#' + fieldsetId);
                 for (let i = 1; i <= n; i++) {
-                    let radioId = `${fieldsetId}-r${i}`;  // Generate a unique id for each radio button
-                    let radioName = `${fieldsetId}-rating`;  // Generate a unique name for each group of radio buttons
+                    let radioId = `${fieldsetId}-r${i}`; // Generate a unique id for each radio button
+                    let radioName = `${fieldsetId}-rating`; // Generate a unique name for each group of radio buttons
                     let html = `
                     <div class="usa-radio">
                         <input class="usa-radio__input" id="${radioId}" type="radio" name="${radioName}" value="${i}" />
@@ -592,7 +579,7 @@ if (fileName === 'quiz-old.html') {
             complete.addEventListener('click', () => {
                 questions.forEach((question, index) => {
                     const radioButtons = question.querySelectorAll('input[type="radio"]');
-                    const randomIndex = Math.floor(Math.random() * radioButtons.length);  // Choose a random radio button to select
+                    const randomIndex = Math.floor(Math.random() * radioButtons.length); // Choose a random radio button to select
                     const radioButton = radioButtons[randomIndex] as HTMLInputElement;
 
                     radioButton.checked = true;
@@ -636,12 +623,11 @@ if (fileName === 'quiz-old.html') {
                 if (progressText) {
                     //progressText.textContent = `Progress: ${Math.round(progressPercentage)}% Complete`;
                     progressText.textContent = `Progress: ${Math.round(progressPercentage)}% Complete (${answeredCount}/${totalQuestions})`;
-
                 }
             }
 
             function areAllQuestionsAnswered(): boolean {
-                return Array.from(questions).every(questionElement => isQuestionAnswered(questionElement as HTMLElement));
+                return Array.from(questions).every((questionElement) => isQuestionAnswered(questionElement as HTMLElement));
             }
 
             const submitButton = document.querySelector('#submit-button') as HTMLElement;
@@ -655,8 +641,6 @@ if (fileName === 'quiz-old.html') {
                 }
             }
             updateSubmitButtonState();
-
-
         } catch (error) {
             console.error('Error:', error);
         }

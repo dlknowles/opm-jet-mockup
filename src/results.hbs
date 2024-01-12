@@ -29,17 +29,17 @@
     {{> header }}
     <main id="main">
         <section class="vh-80 bg-grad top-results">
-                <div class="grid-container top-series-container">
-                    <div class="grid-row grid-gap">
-                        <div class="tablet-lg:grid-col results-intro">
-                            <h1 class="text-5xl">Your results are in!</h1>
-                            <p class="text-2xl">Here are your top <a href="#faq-series" class="usa-link helper-link" aria-controls="faq-series" data-open-modal>job series</a> matches.</p>
-                        </div>
-                        <div class="tablet-lg:grid-col">
-                            <ul class="usa-list usa-list--unstyled top-series-list" id="top-series-list"></ul>
-                        </div>
+            <div class="grid-container top-series-container">
+                <div class="grid-row grid-gap">
+                    <div class="tablet-lg:grid-col results-intro">
+                        <h1 class="text-5xl">Your results are in!</h1>
+                        <p class="text-2xl">Here are your top <a href="#faq-series" class="usa-link helper-link" aria-controls="faq-series" data-open-modal>job series</a> matches.</p>
+                    </div>
+                    <div class="tablet-lg:grid-col">
+                        <ul class="usa-list usa-list--unstyled top-series-list" id="top-series-list"></ul>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
         <section class="bg-gray results-faqs-section">
@@ -65,7 +65,7 @@
                                 <a href="#save-my-results" class="usa-link helper-link icon" aria-controls="save-my-results" data-open-modal>
                                     <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
                                         <use xlink:href="assets/uswds/img/sprite.svg#info"></use>
-                                    </svg> Save my results
+                                    </svg> Can I save my results?
                                 </a>
                             </li>
                         </ul>
@@ -77,22 +77,28 @@
             <div id="data"></div>
         </section>
         <section class="bottom-section load-more-section">
-
-            <h2>Want to see more jobs series matches?</h2>
             <button id="load-more" class="usa-button usa-button--outline load-more-button text-xl">Load more results</button>
-
         </section>
-        <section class="bottom-section bg-blue restart-quiz-section">
-
-            <h2>Want to retake the quiz or change some of your responses?</h2>
-            <div class="usa-button-group buttons-center">
-                <a href="quiz.html" class="usa-button usa-button--outline text-xl">Restart the quiz</a>
-                <a href="quiz.html" class="usa-button usa-button--outline text-xl">Change some answers</a>
+        <section class="bottom-section bg-grad restart-quiz-section">
+            <div class="grid-container">
+                <div class="grid-row grid-gap">
+                    <div class="tablet-lg:grid-col-9 results-intro">
+                        <p class="text-2xl">
+                            Do you want to know how changing your answers will give you different results?
+                        </p>
+                        <p class="text-2xl"><a href="quiz.html" class="usa-link text-bold">Retake the quiz</a> or <a href="quiz.html" class="usa-link text-bold">change your answers</a>.</p>
+                    </div>
+                </div>
             </div>
-
+            </div>
         </section>
+        {{!-- <section class="bottom-section bg-grad restart-quiz-section">
+            <div class="usa-button-group buttons-center">
+                <a href="quiz.html" class="usa-button usa-button--outline text-xl">Retake the quiz</a>
+                <a href="quiz.html" class="usa-button usa-button--outline text-xl">Change your answers</a>
+            </div>
+        </section> --}}
         {{> feedback-form-long }}
-        {{> feedback-form-short }}
     </main>
     {{> footer }}
 
@@ -103,17 +109,17 @@
                     What's a job series?
                 </h2>
                 <p id="modal-1-description">
-                    The federal government categorizes jobs into groups or families of jobs or occupations. These groups are called a series. The series is a four-digit numbering system for organizing similar jobs. Related jobs will have series numbers that are closer together.
+                    The federal government categorizes jobs into groups or families called a series. The series is a four-digit numbering system for organizing similar jobs. Related jobs will have series numbers that are closer together.
                 </p>
                 <p>
-                    For example, medical, dental and public health jobs will have a series between 0600–0699, where nurse jobs are in the 0610 series and nursing assistant is 0621.
+                    For example, medical, dental and public health jobs are between 0600-0699. Nursing jobs are in the 0610 series and nursing assistant jobs are in the 0621 series.
                 </p>
-                <h3>Which job series are included here?</h3>
+                <h3>Which job series are included in the quiz?</h3>
                 <p>
-                    The Job Exploration Tool can match you with <strong>all job series</strong> in the federal government.
+                    The USAJOBS Career Explorer can match you with <strong>over 300 job series</strong> in the federal government.
                 </p>
                 <div class="usa-modal__footer">
-                    <ul class="usa-button-group">
+                    {{!-- <ul class="usa-button-group">
                         <li class="usa-button-group__item">
                             <button type="button" class="usa-button usa-button--unstyled padding-105 text-center" data-close-modal>
                                 <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
@@ -121,7 +127,7 @@
                                 </svg> Learn more from our Help Center
                             </button>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
             <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
@@ -139,18 +145,18 @@
                     How did you find my match?
                 </h2>
                 <p id="modal-2-description">
-                    The Job Exploration Tool uses a unique approach to finding job matches for you <strong>based on your interests</strong>. Unlike most job match assessment tools which match you based on skills, competencies, eligibilities, education level, or background, the JET aims to help you discover many different jobs which align purely with your interests.
+                    The USAJOBS Career Explorer uses a unique approach to finding job matches for you <strong>based on your interests</strong>. Unlike most job match assessment tools which match you based on skills, competencies, eligibilities, education level, or background, this aims to help you discover many different jobs which align purely with your interests.
                 </p>
                 <h3>Why interest-based matching?</h3>
                 <p>
                     Experts believe that interest is the cornerstone of a fulfilling career. When you are genuinely interested in your job, it not only leads to greater job satisfaction but also to long-term career success.
                 </p>
-                <h3>How does the JET work?</h3>
+                <h3>How does the USAJOBS Career Explorer work?</h3>
                 <p>
-                    It's magic.
+                    Each question talks about broad activities that many jobs could include. We take your answers and correlate that with job series that you might be interested in.
                 </p>
                 <div class="usa-modal__footer">
-                    <ul class="usa-button-group">
+                    {{!-- <ul class="usa-button-group">
                         <li class="usa-button-group__item">
                             <button type="button" class="usa-button usa-button--unstyled padding-105 text-center" data-close-modal>
                                 <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
@@ -158,7 +164,7 @@
                                 </svg> Learn more from our Help Center
                             </button>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
             <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
@@ -173,10 +179,10 @@
         <div class="usa-modal__content usa-prose">
             <div class="usa-modal__main">
                 <h2 id="modal-3-heading">
-                    Save my results
+                    Can I save my results?
                 </h2>
                 <p id="modal-3-description">
-                    You can <a href="" class="usa-link" id="copyButton">copy this URL</a> or bookmark this page to save for later!
+                    You can copy this URL and save or bookmark it to view your results later.
                 </p>
                 <label class="usa-label sr-only" for="urlField">This page URL</label>
                 <input class="usa-input input-readonly margin-bottom-3" id="urlField" name="urlField" readonly value="" />
